@@ -15,9 +15,9 @@ export default function UnlockToast({ concept }: { concept: Concept | null }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -16, scale: 0.96 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="flex w-full max-w-sm items-center gap-3 rounded-2xl border border-gold/30 bg-navy px-4 py-3 text-cream shadow-lift"
+            className="glass-dark flex w-full max-w-sm items-center gap-3 rounded-2xl border-amber/20 px-4 py-3 text-cream shadow-lift"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold/15 text-gold-soft ring-1 ring-gold/30">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber/20 text-amber ring-1 ring-amber/30">
               <ConceptIcon id={concept.id} className="h-5 w-5" />
             </span>
             <div className="min-w-0">
@@ -28,7 +28,7 @@ export default function UnlockToast({ concept }: { concept: Concept | null }) {
                 {concept.label}
               </p>
             </div>
-            <span className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-gold text-navy">
+            <span className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-amber text-navy">
               <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 6 9 17l-5-5" />
               </svg>

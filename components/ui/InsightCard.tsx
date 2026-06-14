@@ -9,7 +9,7 @@ interface InsightCardProps {
 export default function InsightCard({ label, children, className = "" }: InsightCardProps) {
   return (
     <div
-      className={`relative overflow-hidden rounded-tile border border-gold/25 bg-gradient-to-br from-cream-deep to-white/40 px-5 py-4 shadow-soft ${className}`}
+      className={`glass relative overflow-hidden rounded-tile border-gold/25 px-5 py-4 ${className}`}
     >
       {/* Gold spine + a soft advisor mark in the corner. */}
       <span className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-gold-soft to-gold-deep" />

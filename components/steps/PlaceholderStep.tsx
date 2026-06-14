@@ -6,6 +6,7 @@ import type { StepId } from "@/lib/types";
 
 const LABELS: Record<StepId, string> = {
   welcome: "Welcome",
+  price: "Your price range",
   "what-is-assumable": "What is an assumable loan?",
   eligibility: "Loan type",
   "equity-gap": "The Equity Gap",

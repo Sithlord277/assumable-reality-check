@@ -4,6 +4,7 @@ import type { StepId } from "./types";
 // alternatives) get inserted here in Phase 2 without touching the renderer.
 export const FLOW: StepId[] = [
   "welcome",
+  "price",
   "what-is-assumable",
   "eligibility",
   "equity-gap",

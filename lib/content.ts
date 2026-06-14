@@ -14,8 +14,8 @@ export const whatIsAssumable = {
   stepLabel: "What is an assumable loan?",
   headline: "Some sellers are still carrying mortgages from a very different market.",
   lesson: [
-    "An assumable loan lets a qualified buyer take over the seller's existing mortgage instead of starting a new one from scratch. The seller already has a loan with a rate locked in from whenever they bought. In some cases, you can step into that loan and keep their terms.",
-    "Not every mortgage works this way. VA and FHA loans are the ones most likely to allow it. Conventional loans usually don't.",
+    "An assumable loan lets a qualified buyer *take over the seller's existing mortgage* instead of starting a new one from scratch. The seller already has a loan with a rate locked in from whenever they bought. In some cases, you can step into that loan and keep their terms.",
+    "Not every mortgage works this way. **VA, FHA, and USDA loans** are the ones most likely to allow it. Conventional loans usually don't.",
   ],
   visual: {
     label: "A simplified picture of how it's structured:",
@@ -42,19 +42,59 @@ export const whatIsAssumable = {
 
 export const eligibility = {
   stepLabel: "Loan type",
-  headline: "Not every mortgage can be assumed the same way.",
-  lesson:
-    "The seller's loan type is what determines whether an assumption is even on the table. VA and FHA loans are the ones most likely to allow it under a defined process. Conventional loans usually don't. The buyer still has to qualify either way -- you're stepping into the loan terms, not skipping underwriting.",
-  insight: {
-    label: "Why this matters.",
-    body: "If the seller has a conventional loan, the assumption route is likely closed regardless of the rate. VA and FHA loans are the ones worth tracking down.",
+  headline: "FHA, VA, and USDA assumptions each play by different rules.",
+  intro:
+    "Whether an assumption is even on the table depends on what kind of loan the seller has. These three are the ones that allow it -- but they work differently, and the differences are worth knowing.",
+  flipCards: [
+    {
+      id: "fha",
+      front: { label: "FHA Loans", hook: "Primary home only", icon: "house" },
+      back: {
+        label: "FHA Assumptions",
+        points: [
+          "Must be the assuming buyer's primary residence",
+          "Any buyer can assume -- vet or not",
+          "Standard FHA underwriting still applies",
+          "Servicer approval required",
+        ],
+      },
+    },
+    {
+      id: "va",
+      front: { label: "VA Loans", hook: "Primary or investment", icon: "shield" },
+      back: {
+        label: "VA Assumptions",
+        points: [
+          "Buyer can use as primary or as an investment property",
+          "Non-veterans can assume a VA loan",
+          "VA underwriting standards apply regardless",
+          "Seller's entitlement stays tied to the home until the loan is paid off",
+        ],
+      },
+    },
+    {
+      id: "usda",
+      front: { label: "USDA Loans", hook: "Rural areas, income limits", icon: "field" },
+      back: {
+        label: "USDA Assumptions",
+        points: [
+          "Must be the assuming buyer's primary residence",
+          "Property must be in a USDA-eligible rural area",
+          "Buyer must meet USDA income limits",
+          "Lender and USDA approval both required",
+        ],
+      },
+    },
+  ],
+  funFact: {
+    label: "Most people have never heard this.",
+    body: "You *do not have to be a veteran* to assume a VA loan. The rate and the terms come with the house. The seller's VA entitlement stays tied to the home until the loan is paid off -- but the buyer stepping in does not need to have served.",
   },
-  question: "Do any of these apply to you or the loans you're likely to encounter?",
+  question: "Which of these sounds most like you?",
   choices: [
-    { value: "va" as const, label: "I may be VA eligible" },
-    { value: "open-fha-va" as const, label: "I'm open to FHA or VA options" },
-    { value: "not-sure" as const, label: "I'm not sure" },
-    { value: "none" as const, label: "None of these apply to me" },
+    { value: "va" as const, label: "I'm a veteran or active military" },
+    { value: "open-fha-va" as const, label: "Not a vet, but open to FHA, VA, or USDA" },
+    { value: "not-sure" as const, label: "I'm still figuring out what fits" },
   ],
   cta: "Next",
 };
@@ -92,40 +132,26 @@ export const openness = {
 export const paymentStructure = {
   stepLabel: "How the payment works",
   headline: "The payment depends on how you solve the gap. Here are the three ways buyers do it.",
-  intro:
-    "Using the same example: $500,000 home, $390,000 assumable loan at 3.25%. The $110,000 gap still has to come from somewhere. How you solve it changes your monthly payment significantly.",
+  // Dollar figures in tiles are built dynamically in PaymentStructureStep from computeExample().
+  introTemplate: (orig: string, curr: string, gap: string) =>
+    `Your seller originally borrowed ${orig} at 3.25%. After about four years of payments, roughly ${curr} remains — that's what you'd assume. The monthly payment was locked in at origination and you continue it. The ${gap} gap still has to come from somewhere. How you solve it changes what closing looks like.`,
   scenarios: [
     {
       id: "cash" as const,
       tab: "Cash Plan",
       title: "Assume the loan + pay the gap with cash",
-      tiles: [
-        { label: "Assumed loan payment", value: "~$1,697/mo", sub: "Est. P&I on $390k at 3.25%, 30yr — example only" },
-        { label: "Cash to close for gap", value: "~$110,000", sub: "Paid upfront, not financed" },
-        { label: "Second monthly payment", value: "None", sub: "No second loan" },
-      ],
       note: "Fewer moving parts. Lower monthly payment. Requires significantly more cash upfront.",
     },
     {
       id: "financing" as const,
       tab: "Second Loan",
       title: "Assume the loan + finance the gap",
-      tiles: [
-        { label: "Assumed loan payment", value: "~$1,697/mo", sub: "Est. P&I on $390k at 3.25%, 30yr — example only" },
-        { label: "Second loan payment", value: "~$807/mo", sub: "Est. on $110k at 8%, 15yr — example only" },
-        { label: "Combined monthly", value: "~$2,504/mo", sub: "Total before taxes and insurance" },
-      ],
       note: "Less cash needed at closing. But two payments and a higher combined monthly than the assumed rate alone suggests.",
     },
     {
       id: "traditional" as const,
       tab: "Traditional",
       title: "Skip the assumption, use a new loan",
-      tiles: [
-        { label: "New loan amount", value: "~$450,000", sub: "Assuming 10% down on $500k — example only" },
-        { label: "Current rate (example)", value: "~7.00%", sub: "Approximate market rate — example only" },
-        { label: "Estimated payment", value: "~$2,994/mo", sub: "Est. P&I, 30yr — example only" },
-      ],
       note: "One loan, simpler structure. No equity gap problem. But the rate and payment reflect today's market, not the seller's old one.",
     },
   ],
@@ -144,16 +170,16 @@ export const equityGap = {
   stepLabel: "The equity gap",
   headline: "Here's the part that doesn't make it onto the listing flyer.",
   lesson:
-    "The seller's assumable loan balance and the home's purchase price are almost never the same number. The difference between them is called the equity gap. It doesn't go away just because the rate is attractive. That gap has to be solved — with cash, a second loan, negotiation, or some combination. The rate is the exciting part. The equity gap is where the deal either works or doesn't.",
+    "The seller's assumable loan balance and the home's purchase price are *almost never the same number*. The difference between them is called the **equity gap**. It doesn't go away just because the rate is attractive. That gap has to be solved — with cash, a second loan, negotiation, or some combination. The rate is the exciting part. *The equity gap is where the deal either works or doesn't.*",
+  // Visual dollar figures are computed dynamically from the user's purchase price in EquityGapStep.
   visual: {
-    label: "A real example (all numbers are for illustration only):",
-    purchasePrice: { label: "Purchase price", value: "$500,000" },
-    existingLoan: { label: "Seller's existing loan", value: "$390,000", sub: "at 3.25% — this is what you'd assume" },
-    gap: { label: "Equity gap", value: "$110,000", sub: "This is what still has to be solved" },
+    label: "Based on your purchase price (numbers are for illustration only):",
+    existingLoanSub: "at 3.25% — this is what you'd assume",
+    gapSub: "This is what still has to be solved",
   },
   insight: {
     label: "What this means for you.",
-    body: "A buyer who assumes the $390,000 loan at 3.25% still has to come up with $110,000 somehow. Cash, a second loan, or a negotiated seller contribution. That's not a dealbreaker — but it's the question every assumable deal comes down to.",
+    body: "A buyer who assumes the loan at *3.25%* still has to come up with the gap amount somehow. Cash, a second loan, or a negotiated seller contribution. That's not a dealbreaker — but it's *the question every assumable deal comes down to*.",
   },
   question: "If the right home came along, how much could you realistically put toward a gap like this?",
   choices: [
@@ -194,19 +220,14 @@ export const results = {
 } as const;
 
 export const resultScreen = {
-  emailLabel: "Want a copy of your results?",
-  emailPlaceholder: "your@email.com",
-  emailCta: "Email Me My Results",
-  emailSending: "Sending...",
-  emailSent: "Sent. Check your inbox.",
-  emailError: "Something went wrong. Try again.",
-  emailNote: "No spam, ever. Just your results so you have them when we talk.",
   agentQuestion: "Anything I should know before we talk?",
   agentChoices: [
     { value: "working-with-agent", label: "I'm already working with an agent" },
     { value: "no-agent", label: "I don't have an agent yet" },
     { value: "skip", label: "I'd rather just get to the call" },
   ],
+  bookingIntro: "Talk to a real person, not a form.",
+  bookingSubtitle: "Martin Tsatskin · Libertas Real Estate · Elevate48",
 };
 
 export const disclaimerShort =
@@ -218,11 +239,11 @@ export const disclaimerLong =
 export const welcome = {
   eyebrow: "The Assumable Reality Check",
   headline:
-    "Some homes still have a 2%, 3%, or 4% mortgage attached to them. Let's find out if that actually helps you.",
+    "Some homes still have a *2%, 3%, or 4% mortgage* attached to them. Let's find out if that actually helps you.",
   body: [
     "An assumable loan sounds like a cheat code: you take over the seller's old, cheap mortgage instead of getting stuck with today's rate. Sometimes it really is that good. Sometimes the low rate is the shiny object, and the real story is the pile of cash it takes to make the deal work.",
     "Give me about five minutes and you'll know which one you're looking at. No credit pull, no application, and no six different lenders blowing up your phone by dinner.",
   ],
-  reassure: "It has always been your choice. This just makes it an informed one.",
+  reassure: "In about five minutes you'll know if that low rate is *real money in your pocket* or just a shiny object.",
   cta: "Start the Reality Check",
 };

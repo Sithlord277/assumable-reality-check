@@ -3,17 +3,20 @@
 import { useState } from "react";
 import { useFlow } from "@/lib/state";
 import { equityGap } from "@/lib/content";
+import { computeExample } from "@/lib/finance";
 import type { GapCashBracket } from "@/lib/types";
 import FinancialTile from "@/components/ui/FinancialTile";
 import ChoiceGrid from "@/components/ui/ChoiceGrid";
 import InsightCard from "@/components/ui/InsightCard";
 import CtaButton from "@/components/ui/CtaButton";
+import RichText from "@/components/ui/RichText";
 
 export default function EquityGapStep() {
   const { next, setAnswer, answers } = useFlow();
   const [selected, setSelected] = useState<GapCashBracket | undefined>(
     answers.gapCash
   );
+  const ex = computeExample(answers.purchasePrice ?? 500_000);
 
   function handleSelect(value: GapCashBracket) {
     setSelected(value);
@@ -29,26 +32,22 @@ export default function EquityGapStep() {
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gold">
           {c.stepLabel}
         </p>
-        <h2 className="text-2xl font-extrabold leading-tight text-navy">
+        <h2 className="font-display text-2xl font-extrabold leading-tight text-navy">
           {c.headline}
         </h2>
       </div>
 
       {/* Lesson */}
-      <p className="text-base leading-relaxed text-ink">{c.lesson}</p>
+      <RichText className="text-base leading-relaxed text-charcoal">{c.lesson}</RichText>
 
-      {/* Financial tiles visual */}
+      {/* Financial tiles visual — all dynamic */}
       <div>
         <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink/50">
           {c.visual.label}
         </p>
         <div className="flex flex-col gap-3">
-          <FinancialTile
-            label={c.visual.purchasePrice.label}
-            value={c.visual.purchasePrice.value}
-          />
+          <FinancialTile label="Purchase price" value={ex.price} />
 
-          {/* Connecting line */}
           <div className="flex items-center gap-3 px-2">
             <div className="h-px flex-1 bg-line" />
             <span className="text-xs font-semibold text-ink/40">minus</span>
@@ -56,13 +55,12 @@ export default function EquityGapStep() {
           </div>
 
           <FinancialTile
-            label={c.visual.existingLoan.label}
-            value={c.visual.existingLoan.value}
-            sub={c.visual.existingLoan.sub}
+            label="Seller's existing loan"
+            value={ex.currentBalance}
+            sub={c.visual.existingLoanSub}
             variant="navy"
           />
 
-          {/* Equals line */}
           <div className="flex items-center gap-3 px-2">
             <div className="h-px flex-1 bg-gold/40" />
             <span className="text-xs font-semibold text-gold">equals</span>
@@ -70,16 +68,18 @@ export default function EquityGapStep() {
           </div>
 
           <FinancialTile
-            label={c.visual.gap.label}
-            value={c.visual.gap.value}
-            sub={c.visual.gap.sub}
+            label="Equity gap"
+            value={ex.gap}
+            sub={c.visual.gapSub}
             variant="gap"
           />
         </div>
       </div>
 
       {/* Insight */}
-      <InsightCard label={c.insight.label}>{c.insight.body}</InsightCard>
+      <InsightCard label={c.insight.label}>
+        <RichText inline>{c.insight.body}</RichText>
+      </InsightCard>
 
       {/* Question */}
       <div>

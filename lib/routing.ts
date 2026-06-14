@@ -12,8 +12,8 @@ export function computeResult(answers: Answers): ResultKey {
   // Hard C signals -----------------------------------------------------------
   // "Assumables or nothing" but cash to solve the gap is very thin.
   if (openness === "no-only-assumables" && gapCash === "under-25k") return "C";
-  // Eligibility rules out VA/FHA and cash is thin: assumables are a tough path.
-  if (eligibility === "none" && gapCash === "under-25k") return "C";
+  // Cash is thin and user is uncertain: assumables are a tough path without more info.
+  if (eligibility === "not-sure" && gapCash === "under-25k" && openness === "no-only-assumables") return "C";
   // Just researching + closed to alternatives: no clear next step toward assumables.
   if (timeline === "researching" && openness === "no-only-assumables") return "C";
 

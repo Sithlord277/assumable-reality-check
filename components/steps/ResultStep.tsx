@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useFlow } from "@/lib/state";
 import { computeResult } from "@/lib/routing";
 import { results, resultScreen } from "@/lib/content";
@@ -12,7 +12,6 @@ import ClarityGauge from "@/components/ui/ClarityGauge";
 import ConceptIcon from "@/components/ui/ConceptIcon";
 import Disclaimer from "@/components/ui/Disclaimer";
 
-type EmailState = "idle" | "sending" | "sent" | "error";
 type AgentAnswer = "working-with-agent" | "no-agent" | "skip";
 
 function getBookingUrl(ctaKey: keyof typeof appConfig.calendly): string {
@@ -23,10 +22,48 @@ const toneStyles: Record<
   "strong" | "moderate" | "alt",
   { chip: string; dot: string }
 > = {
-  strong: { chip: "bg-gold/15 text-gold-deep ring-gold/30", dot: "bg-gold" },
-  moderate: { chip: "bg-navy/10 text-navy ring-navy/20", dot: "bg-navy" },
-  alt: { chip: "bg-cream-deep text-ink/70 ring-line", dot: "bg-ink/40" },
+  strong:   { chip: "bg-amber/15 text-amber ring-amber/30",   dot: "bg-amber" },
+  moderate: { chip: "bg-navy/10 text-navy ring-navy/20",       dot: "bg-navy" },
+  alt:      { chip: "bg-cream-deep text-ink/70 ring-line",     dot: "bg-ink/40" },
 };
+
+/* ── Celebration sparkle burst ────────────────────────────────────────── */
+const SPARKS = [
+  { x:  0,   y: -60, color: "#c6a24a", size: 10 },
+  { x:  52,  y: -32, color: "#e2a33f", size:  7 },
+  { x:  60,  y:  20, color: "#e08a4b", size:  9 },
+  { x:  30,  y:  58, color: "#c6a24a", size:  6 },
+  { x: -30,  y:  58, color: "#d9bd74", size:  8 },
+  { x: -60,  y:  20, color: "#e2a33f", size:  7 },
+  { x: -52,  y: -32, color: "#e08a4b", size: 10 },
+  { x: -14,  y: -62, color: "#c6a24a", size:  6 },
+  { x:  14,  y: -62, color: "#d9bd74", size:  8 },
+  { x:  65,  y: -10, color: "#e2a33f", size:  5 },
+  { x: -65,  y: -10, color: "#e08a4b", size:  5 },
+  { x:   0,  y:  68, color: "#c6a24a", size:  7 },
+];
+
+function CelebrationBurst({ active }: { active: boolean }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden" aria-hidden>
+      {SPARKS.map((s, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full"
+          style={{ width: s.size, height: s.size, background: s.color, top: "50%", left: "50%" }}
+          initial={{ x: 0, y: 0, scale: 0, opacity: 0 }}
+          animate={active ? {
+            x: s.x,
+            y: s.y,
+            scale: [0, 1.2, 0.8],
+            opacity: [0, 1, 0],
+          } : {}}
+          transition={{ delay: 0.05 + i * 0.035, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function ResultStep() {
   const { answers, reset } = useFlow();
@@ -35,7 +72,6 @@ export default function ResultStep() {
   const fit = FIT[key];
   const tone = toneStyles[fit.tone];
 
-  // Brief "tallying" beat before the certificate reveal — makes it feel earned.
   const [revealed, setRevealed] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setRevealed(true), 1050);
@@ -43,53 +79,13 @@ export default function ResultStep() {
   }, []);
 
   const [agentAnswer, setAgentAnswer] = useState<AgentAnswer | undefined>();
-  const [email, setEmail] = useState("");
-  const [emailState, setEmailState] = useState<EmailState>("idle");
-
-  async function handleEmailSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!email.trim() || emailState === "sending" || emailState === "sent") return;
-
-    setEmailState("sending");
-    try {
-      const { serviceId, publicKey, templateUser } = appConfig.emailjs;
-      if (!serviceId || !publicKey || !templateUser) {
-        await new Promise((r) => setTimeout(r, 600));
-        setEmailState("sent");
-        return;
-      }
-      const emailjs = await import("@emailjs/browser");
-      await emailjs.send(
-        serviceId,
-        templateUser,
-        {
-          to_email: email.trim(),
-          result_label: result.badge,
-          result_body: result.body,
-          next_step: result.cta,
-          fit: fit.fit,
-          agent_status: agentAnswer ?? "not answered",
-          timeline: answers.timeline ?? "not answered",
-          gap_cash: answers.gapCash ?? "not answered",
-          eligibility: answers.eligibility ?? "not answered",
-          openness: answers.openness ?? "not answered",
-        },
-        { publicKey }
-      );
-      setEmailState("sent");
-    } catch {
-      setEmailState("error");
-    }
-  }
-
   const bookingUrl = getBookingUrl(result.ctaKey);
 
-  // The "tallying" interstitial.
   if (!revealed) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
         <motion.div
-          className="h-16 w-16 rounded-full border-4 border-cream-deep border-t-gold"
+          className="h-16 w-16 rounded-full border-4 border-cream-deep border-t-amber"
           animate={{ rotate: 360 }}
           transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
         />
@@ -107,26 +103,38 @@ export default function ResultStep() {
     <div className="flex flex-1 flex-col gap-7 pb-2">
       {/* Certificate header */}
       <motion.div
-        className="relative overflow-hidden rounded-tile border border-line bg-white/75 px-6 pb-7 pt-6 text-center shadow-tile"
+        className="relative overflow-hidden rounded-tile border border-line/70 glass px-6 pb-7 pt-6 text-center"
         initial={{ opacity: 0, y: 18, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* gold corner flourishes */}
+        {/* Celebration burst */}
+        <CelebrationBurst active={revealed} />
+
+        {/* Gold corner flourishes */}
         <span className="pointer-events-none absolute left-3 top-3 h-6 w-6 rounded-tl-xl border-l-2 border-t-2 border-gold/40" />
         <span className="pointer-events-none absolute right-3 top-3 h-6 w-6 rounded-tr-xl border-r-2 border-t-2 border-gold/40" />
         <span className="pointer-events-none absolute bottom-3 left-3 h-6 w-6 rounded-bl-xl border-b-2 border-l-2 border-gold/40" />
         <span className="pointer-events-none absolute bottom-3 right-3 h-6 w-6 rounded-br-xl border-b-2 border-r-2 border-gold/40" />
 
-        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-gold">
+        {/* PHOTO SLOT: replace SVG with <img src="/home-photo.jpg" className="absolute inset-0 h-full w-full object-cover opacity-[0.07] pointer-events-none" alt="" /> */}
+        <svg viewBox="0 0 200 140" className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.045]" fill="none" stroke="currentColor" strokeWidth={1} aria-hidden>
+          <path d="M100 20 L160 65 L160 120 L40 120 L40 65 Z" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M80 120 L80 90 Q80 82 88 82 L112 82 Q120 82 120 90 L120 120" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M55 120 L55 95 L75 95 L75 120" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M125 120 L125 95 L145 95 L145 120" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="100" cy="52" r="6" />
+        </svg>
+
+        <p className="relative text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-gold">
           Reality Check Complete
         </p>
 
-        <div className="mt-5 flex justify-center">
+        <div className="relative mt-5 flex justify-center">
           <ClarityGauge value={100} label="Clarity" start={revealed} />
         </div>
 
-        <p className="mx-auto mt-5 max-w-[18rem] text-sm leading-relaxed text-ink/70">
+        <p className="relative mx-auto mt-5 max-w-[18rem] text-sm leading-relaxed text-ink/70">
           You just learned what most buyers never bother to. That puts you ahead
           before you even start looking.
         </p>
@@ -146,15 +154,10 @@ export default function ResultStep() {
               key={c.id}
               initial={{ opacity: 0, scale: 0.8, y: 8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{
-                delay: 0.3 + i * 0.1,
-                type: "spring",
-                stiffness: 320,
-                damping: 18,
-              }}
-              className="flex items-center gap-2.5 rounded-2xl border border-line bg-white/70 px-3 py-2.5 shadow-soft"
+              transition={{ delay: 0.3 + i * 0.1, type: "spring", stiffness: 320, damping: 18 }}
+              className="glass flex items-center gap-2.5 rounded-2xl px-3 py-2.5"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gold/12 text-gold-deep ring-1 ring-gold/25">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber/12 text-amber ring-1 ring-amber/25">
                 <ConceptIcon id={c.id} className="h-[18px] w-[18px]" />
               </span>
               <span className="text-[0.8rem] font-semibold leading-tight text-navy">
@@ -170,15 +173,13 @@ export default function ResultStep() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.55, duration: 0.5 }}
-        className="rounded-tile border border-navy/15 bg-navy px-6 py-6 text-cream shadow-lift"
+        className="glass-dark rounded-tile px-6 py-6 text-cream"
       >
         <div className="flex items-center justify-between gap-3">
           <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-gold-soft">
             Your next step
           </p>
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[0.68rem] font-bold uppercase tracking-wide ring-1 ${tone.chip}`}
-          >
+          <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[0.68rem] font-bold uppercase tracking-wide ring-1 ${tone.chip}`}>
             <span className={`h-1.5 w-1.5 rounded-full ${tone.dot}`} />
             {fit.fit}
           </span>
@@ -189,7 +190,21 @@ export default function ResultStep() {
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-cream/80">{result.body}</p>
 
-        <div className="mt-5 rounded-2xl border-l-4 border-gold bg-white/5 px-4 py-3">
+        {/* Martin headshot + attribution */}
+        <div className="mt-4 flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/martin-headshot.png"
+            alt="Martin Tsatskin"
+            className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-gold/40"
+          />
+          <div>
+            <p className="text-xs font-semibold text-cream/90">Martin Tsatskin</p>
+            <p className="text-[0.65rem] text-cream/55">Libertas Real Estate · Elevate48</p>
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-2xl border-l-4 border-gold bg-white/5 px-4 py-3">
           <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-gold-soft">
             What happens next
           </p>
@@ -216,7 +231,7 @@ export default function ResultStep() {
                   "focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40",
                   isSelected
                     ? "border-navy bg-navy text-cream"
-                    : "border-line bg-white/70 text-charcoal hover:border-gold/50 hover:bg-white",
+                    : "glass border-line/60 text-charcoal hover:border-amber/50",
                 ].join(" ")}
               >
                 {choice.label}
@@ -226,52 +241,29 @@ export default function ResultStep() {
         </div>
       </div>
 
-      {/* Primary CTA */}
-      <CtaButton
-        variant="gold"
-        arrow
-        onClick={() => {
-          if (bookingUrl !== "#") window.open(bookingUrl, "_blank");
-        }}
-      >
-        {result.cta}
-      </CtaButton>
-
-      {/* Email capture */}
-      <div className="rounded-tile border border-line bg-white/70 px-5 py-5 shadow-soft">
-        <p className="mb-1 font-display text-lg font-semibold text-navy">
-          {resultScreen.emailLabel}
-        </p>
-        {emailState === "sent" ? (
-          <div className="mt-2 flex items-center gap-2 text-sm font-medium text-gold-deep">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold text-navy">
-              <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 6 9 17l-5-5" />
-              </svg>
-            </span>
-            {resultScreen.emailSent}
+      {/* Booking CTA — primary, prominent */}
+      <div className="rounded-tile border border-amber/20 bg-gradient-to-br from-amber/8 via-transparent to-transparent px-5 py-5 shadow-soft">
+        <div className="mb-4 flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/martin-headshot.png"
+            alt="Martin Tsatskin"
+            className="h-12 w-12 shrink-0 rounded-full object-cover ring-2 ring-gold/30 shadow-soft"
+          />
+          <div>
+            <p className="font-display text-base font-bold text-navy">{resultScreen.bookingIntro}</p>
+            <p className="text-xs text-ink/55">{resultScreen.bookingSubtitle}</p>
           </div>
-        ) : (
-          <form onSubmit={handleEmailSubmit} className="mt-3 flex flex-col gap-3">
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={resultScreen.emailPlaceholder}
-              className="w-full rounded-xl border border-line bg-cream px-4 py-3 text-base text-charcoal placeholder:text-ink/40 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25"
-            />
-            <CtaButton type="submit" disabled={!email.trim() || emailState === "sending"}>
-              {emailState === "sending"
-                ? resultScreen.emailSending
-                : resultScreen.emailCta}
-            </CtaButton>
-            {emailState === "error" && (
-              <p className="text-center text-xs text-red-500">{resultScreen.emailError}</p>
-            )}
-            <p className="text-center text-xs text-ink/50">{resultScreen.emailNote}</p>
-          </form>
-        )}
+        </div>
+        <CtaButton
+          variant="gold"
+          arrow
+          onClick={() => {
+            if (bookingUrl !== "#") window.open(bookingUrl, "_blank");
+          }}
+        >
+          {result.cta}
+        </CtaButton>
       </div>
 
       <button

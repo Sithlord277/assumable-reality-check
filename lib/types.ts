@@ -2,6 +2,7 @@
 
 export type StepId =
   | "welcome"
+  | "price"
   | "what-is-assumable"
   | "eligibility"
   | "equity-gap"
@@ -18,7 +19,7 @@ export type AttentionAnswer =
   | "not-sure"
   | "just-curious";
 
-export type EligibilityAnswer = "va" | "open-fha-va" | "not-sure" | "none";
+export type EligibilityAnswer = "va" | "open-fha-va" | "not-sure";
 
 export type GapCashBracket = "under-25k" | "25-75k" | "75-150k" | "150k-plus";
 
@@ -31,6 +32,7 @@ export type OpennessAnswer = "yes" | "maybe" | "no-only-assumables" | "not-sure"
 export type ResultKey = "A" | "B" | "C";
 
 export interface Answers {
+  purchasePrice?: number;
   attention?: AttentionAnswer;
   eligibility?: EligibilityAnswer;
   gapCash?: GapCashBracket;
