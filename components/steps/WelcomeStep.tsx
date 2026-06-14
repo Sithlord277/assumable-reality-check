@@ -27,23 +27,23 @@ export default function WelcomeStep() {
 
   return (
     <div className="flex flex-1 flex-col">
-      {/* Logo — centered, sized to match the text column */}
+      {/* Logo — centered, cropped asset removes the internal transparent gap */}
       <motion.div
         custom={0}
         variants={fade}
         initial="hidden"
         animate="show"
-        className="pt-2 flex justify-center"
+        className="flex justify-center"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/elevate48-lockup.png"
+          src="/elevate48-lockup-cropped.png"
           alt="Elevate48, Libertas Real Estate"
           className="w-full max-w-[300px] object-contain"
         />
       </motion.div>
 
-      <div className="flex flex-1 flex-col mt-5">
+      <div className="flex flex-1 flex-col mt-2">
         <motion.div
           custom={1}
           variants={fade}
@@ -77,17 +77,27 @@ export default function WelcomeStep() {
           <RichText>{welcome.body}</RichText>
         </motion.div>
 
-        {/* Callout — glass treatment, new payoff copy */}
+        {/* Callout — glass treatment, subtle glow pulse */}
         <motion.div
           custom={4}
           variants={fade}
           initial="hidden"
           animate="show"
-          className="mt-6 glass rounded-tile px-5 py-4"
+          className="mt-6"
         >
-          <p className="font-display text-lg italic leading-snug text-navy">
-            <RichText inline>{welcome.reassure}</RichText>
-          </p>
+          <motion.div
+            className="glass rounded-tile px-5 py-4"
+            animate={{ boxShadow: [
+              "0 8px 32px -8px rgba(198,162,74,0.12)",
+              "0 8px 32px -4px rgba(198,162,74,0.28)",
+              "0 8px 32px -8px rgba(198,162,74,0.12)",
+            ]}}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <p className="font-display text-lg italic leading-snug text-navy">
+              <RichText inline>{welcome.reassure}</RichText>
+            </p>
+          </motion.div>
         </motion.div>
 
         <motion.div

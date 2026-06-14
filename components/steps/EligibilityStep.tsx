@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useFlow } from "@/lib/state";
 import { eligibility as c } from "@/lib/content";
 import type { EligibilityAnswer } from "@/lib/types";
@@ -38,61 +38,120 @@ function FieldIcon({ className }: { className?: string }) {
   );
 }
 
-/* ── Flip Card ──────────────────────────────────────────────────────────── */
-function FlipCard({ card, index }: { card: typeof c.flipCards[number]; index: number }) {
-  const [flipped, setFlipped] = useState(false);
-  const Icon = card.id === "fha" ? HouseIcon : card.id === "va" ? ShieldIcon : FieldIcon;
+function getIcon(id: string) {
+  if (id === "fha") return HouseIcon;
+  if (id === "va") return ShieldIcon;
+  return FieldIcon;
+}
 
+/* ── Loan Tile (compact front-face) ────────────────────────────────────── */
+function LoanTile({
+  card,
+  index,
+  onOpen,
+}: {
+  card: typeof c.flipCards[number];
+  index: number;
+  onOpen: () => void;
+}) {
+  const Icon = getIcon(card.id);
   return (
-    <motion.div
+    <motion.button
+      type="button"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 + index * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="relative h-52 cursor-pointer"
-      style={{ perspective: "900px" }}
-      onClick={() => setFlipped((f) => !f)}
+      whileHover={{ scale: 1.04, y: -2 }}
+      whileTap={{ scale: 0.96 }}
+      onClick={onOpen}
+      className="glass flex flex-col items-center justify-center gap-3 rounded-2xl px-2 py-5 text-center cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 transition-shadow hover:shadow-lift"
     >
-      <motion.div
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-        style={{ transformStyle: "preserve-3d" }}
-        className="relative h-full w-full"
+      {/* Icon with gentle breathing animation */}
+      <motion.span
+        className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber/15 text-amber ring-1 ring-amber/30"
+        animate={{ scale: [1, 1.06, 1] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: index * 0.6 }}
       >
-        {/* Front */}
-        <div
-          className="glass absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl px-3 text-center"
-          style={{ backfaceVisibility: "hidden" }}
-        >
-          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber/15 text-amber ring-1 ring-amber/30">
-            <Icon className="h-6 w-6" />
-          </span>
-          <div>
-            <p className="text-sm font-extrabold text-navy">{card.front.label}</p>
-            <p className="mt-1 text-[0.7rem] font-semibold uppercase tracking-wider text-ink/50">
-              {card.front.hook}
-            </p>
-          </div>
-          <p className="text-[0.65rem] font-semibold text-amber">Tap to explore →</p>
-        </div>
+        <Icon className="h-6 w-6" />
+      </motion.span>
+      <div>
+        <p className="text-[0.78rem] font-extrabold leading-tight text-navy">{card.front.label}</p>
+        <p className="mt-0.5 text-[0.63rem] font-semibold uppercase tracking-wider text-ink/45">
+          {card.front.hook}
+        </p>
+      </div>
+      <span className="text-[0.6rem] font-semibold text-amber/80 tracking-wide">Tap to learn more</span>
+    </motion.button>
+  );
+}
 
-        {/* Back */}
-        <div
-          className="absolute inset-0 flex flex-col justify-center gap-2 rounded-2xl border border-navy/20 bg-navy px-4 py-4 shadow-lift"
-          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+/* ── Centered Detail Modal ──────────────────────────────────────────────── */
+function LoanModal({
+  card,
+  onClose,
+}: {
+  card: typeof c.flipCards[number] | null;
+  onClose: () => void;
+}) {
+  const Icon = card ? getIcon(card.id) : null;
+
+  return (
+    <AnimatePresence>
+      {card && (
+        /* Backdrop */
+        <motion.div
+          key="backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={onClose}
+          className="fixed inset-0 z-50 flex items-center justify-center px-6"
+          style={{ background: "rgba(21, 41, 63, 0.55)", backdropFilter: "blur(6px)" }}
         >
-          <p className="mb-1 text-[0.65rem] font-bold uppercase tracking-widest text-gold-soft">
-            {card.back.label}
-          </p>
-          {card.back.points.map((pt, i) => (
-            <div key={i} className="flex items-start gap-2">
-              <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-amber" />
-              <p className="text-[0.72rem] leading-snug text-cream/85">{pt}</p>
+          {/* Card — stop propagation so clicking the card itself still closes (matches "touch it again" UX) */}
+          <motion.div
+            key="card"
+            initial={{ opacity: 0, scale: 0.88, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 8 }}
+            transition={{ type: "spring", stiffness: 320, damping: 22 }}
+            onClick={onClose}
+            className="glass-dark w-full max-w-sm rounded-2xl px-6 pb-6 pt-5 text-cream"
+          >
+            {/* Close affordance */}
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                {Icon && (
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber/20 text-amber ring-1 ring-amber/30">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                )}
+                <p className="text-xs font-bold uppercase tracking-widest text-gold-soft">
+                  {card.back.label}
+                </p>
+              </div>
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/10 text-cream/60 text-lg leading-none">
+                ×
+              </span>
             </div>
-          ))}
-          <p className="mt-1 text-[0.62rem] font-medium text-gold/50">Tap to flip back</p>
-        </div>
-      </motion.div>
-    </motion.div>
+
+            <div className="flex flex-col gap-3">
+              {card.back.points.map((pt, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full bg-amber" />
+                  <p className="text-sm leading-relaxed text-cream/90">{pt}</p>
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-5 text-center text-[0.62rem] font-medium text-cream/35">
+              Tap anywhere to close
+            </p>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -102,6 +161,7 @@ export default function EligibilityStep() {
   const [selected, setSelected] = useState<EligibilityAnswer | undefined>(
     answers.eligibility
   );
+  const [activeCard, setActiveCard] = useState<typeof c.flipCards[number] | null>(null);
 
   function handleSelect(value: EligibilityAnswer) {
     setSelected(value);
@@ -121,10 +181,15 @@ export default function EligibilityStep() {
 
       <p className="text-base leading-relaxed text-charcoal">{c.intro}</p>
 
-      {/* Three flip cards — 3-col row, equal width */}
+      {/* Three compact loan tiles */}
       <div className="grid grid-cols-3 gap-2.5">
         {c.flipCards.map((card, i) => (
-          <FlipCard key={card.id} card={card} index={i} />
+          <LoanTile
+            key={card.id}
+            card={card}
+            index={i}
+            onOpen={() => setActiveCard(card)}
+          />
         ))}
       </div>
 
@@ -135,8 +200,15 @@ export default function EligibilityStep() {
         transition={{ delay: 0.35, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="relative overflow-hidden rounded-2xl border border-amber/30 bg-gradient-to-br from-amber/10 via-peach/30 to-transparent px-5 py-4 shadow-soft">
-          {/* Decorative star burst */}
-          <span className="absolute right-4 top-3 font-display text-3xl text-amber/20 select-none" aria-hidden>✦</span>
+          {/* Floating star */}
+          <motion.span
+            className="absolute right-4 top-3 font-display text-3xl text-amber/30 select-none"
+            aria-hidden
+            animate={{ y: [0, -4, 0], rotate: [0, 8, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            ✦
+          </motion.span>
           <p className="mb-1 text-[0.65rem] font-bold uppercase tracking-widest text-amber">
             {c.funFact.label}
           </p>
@@ -158,6 +230,9 @@ export default function EligibilityStep() {
       <CtaButton onClick={next} disabled={!selected} className="mt-auto">
         {c.cta}
       </CtaButton>
+
+      {/* Centered detail modal */}
+      <LoanModal card={activeCard} onClose={() => setActiveCard(null)} />
     </div>
   );
 }

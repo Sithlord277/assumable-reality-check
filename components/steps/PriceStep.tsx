@@ -6,13 +6,12 @@ import { useFlow } from "@/lib/state";
 import CtaButton from "@/components/ui/CtaButton";
 
 const MIN_PRICE = 300_000;
-const DEFAULT_PRICE = 500_000;
+const DEFAULT_PRICE = 450_000;
 
 const PRESETS = [
-  { label: "$350k", value: 350_000 },
-  { label: "$500k", value: 500_000 },
-  { label: "$750k", value: 750_000 },
-  { label: "$1M+", value: 1_000_000 },
+  { label: "$300k", value: 300_000 },
+  { label: "$450k", value: 450_000 },
+  { label: "$600k", value: 600_000 },
 ];
 
 function formatDisplay(n: number): string {
@@ -75,14 +74,11 @@ export default function PriceStep() {
   return (
     <div className="flex flex-1 flex-col gap-7">
       <motion.div custom={0} variants={fade} initial="hidden" animate="show">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gold">
-          Let's personalize this
-        </p>
         <h2 className="font-display text-[1.75rem] font-black leading-tight text-navy">
           What price range are you shopping in?
         </h2>
-        <p className="mt-3 text-base leading-relaxed text-charcoal">
-          Every example in this check will use your number — so the math is relevant to your actual situation, not some generic scenario.
+        <p className="mt-2 text-base leading-relaxed text-charcoal">
+          Ballpark is perfectly fine.
         </p>
       </motion.div>
 
@@ -91,12 +87,14 @@ export default function PriceStep() {
         {PRESETS.map((p) => {
           const active = numericValue === p.value;
           return (
-            <button
+            <motion.button
               key={p.value}
               type="button"
               onClick={() => handlePreset(p.value)}
+              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03 }}
               className={[
-                "rounded-full border px-5 py-2.5 text-sm font-bold transition-all",
+                "rounded-full border px-5 py-2.5 text-sm font-bold transition-colors",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50",
                 active
                   ? "border-navy bg-navy text-cream shadow-soft"
@@ -104,7 +102,7 @@ export default function PriceStep() {
               ].join(" ")}
             >
               {p.label}
-            </button>
+            </motion.button>
           );
         })}
       </motion.div>
@@ -124,38 +122,20 @@ export default function PriceStep() {
             value={raw}
             onChange={handleChange}
             onBlur={handleBlur}
-            placeholder="500,000"
+            placeholder="450,000"
             className="w-full rounded-2xl border border-line bg-white/80 py-4 pl-8 pr-4 text-xl font-extrabold tabular text-navy placeholder:text-ink/30 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25"
           />
         </div>
         {clamped && (
           <p className="mt-2 text-xs font-medium text-amber">
-            We bumped that up to $300,000 — the minimum for this tool to be useful.
-          </p>
-        )}
-        {raw && !clamped && isValid && (
-          <p className="mt-2 text-xs text-ink/50">
-            We'll use {formatDisplay(numericValue)} across every example.
+            We bumped that up to $300,000 — the minimum to make the numbers meaningful.
           </p>
         )}
       </motion.div>
 
-      {/* Glass info card */}
-      <motion.div
-        custom={3}
-        variants={fade}
-        initial="hidden"
-        animate="show"
-        className="glass rounded-tile px-5 py-4"
-      >
-        <p className="text-sm leading-relaxed text-charcoal">
-          This is just for your examples — not a loan application, not a commitment. We won't store it or share it.
-        </p>
-      </motion.div>
-
-      <motion.div custom={4} variants={fade} initial="hidden" animate="show" className="mt-auto">
+      <motion.div custom={3} variants={fade} initial="hidden" animate="show" className="mt-auto">
         <CtaButton variant="gold" arrow onClick={handleContinue}>
-          {isValid ? `Use ${formatDisplay(numericValue)}` : "Use $500k as my example"}
+          {isValid ? `Continue with ${formatDisplay(numericValue)}` : "Continue"}
         </CtaButton>
       </motion.div>
     </div>
