@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+/* Brand tokens (Tailwind v4 CSS-first theme). These generate utilities like
+   bg-navy, text-gold, border-line, rounded-tile, shadow-tile, font-display, etc.
+   Hexes are derived from the Elevate48 / Libertas logos; see branding/brand_assets.md. */
+@theme {
+  --color-navy: #1e3a5f;
+  --color-navy-deep: #15293f;
+  --color-gold: #c6a24a;
+  --color-gold-soft: #d9bd74;
+  --color-gold-deep: #a8842f;
+  --color-charcoal: #2b2b2b;
+  --color-ink: #3d3d3d;
+  --color-cream: #faf7f2;
+  --color-cream-deep: #f1eae0;
+  --color-line: #e7ded0;
+
+  /* Fraunces for display headlines, Plus Jakarta Sans for body.
+     Family names come from the self-hosted @fontsource-variable packages. */
+  --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+
+  --radius-tile: 1.5rem;
+
+  --shadow-tile: 0 18px 40px -20px rgba(30, 58, 95, 0.28);
+  --shadow-soft: 0 8px 22px -12px rgba(30, 58, 95, 0.18);
+  --shadow-gold: 0 16px 36px -16px rgba(168, 132, 47, 0.5);
+  --shadow-lift: 0 28px 60px -24px rgba(30, 58, 95, 0.4);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-sheen: sheen 0.9s var(--ease-out-expo);
+}
+
+html,
+body {
+  min-height: 100%;
+  color: var(--color-charcoal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Warm "paper" atmosphere: a soft gold light from the top, a faint navy haze
+   from the corner, over the cream base. Fixed so it never scrolls away. */
+body {
+  background-color: var(--color-cream);
+  background-image:
+    radial-gradient(135% 85% at 50% -15%, rgba(198, 162, 74, 0.13), transparent 58%),
+    radial-gradient(90% 55% at 105% 0%, rgba(30, 58, 95, 0.06), transparent 55%),
+    radial-gradient(70% 50% at -10% 100%, rgba(198, 162, 74, 0.06), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* Fine film grain over everything for a printed, tactile feel. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Headlines lean on the display serif everywhere, no per-component class needed.
+   Tailwind font utilities still override where I want sans (e.g. tabular numbers). */
+h1,
+h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.018em;
+}
+
+/* Financial figures read cleaner with fixed-width digits. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hairline gold rule used as a section divider / decorative flourish. */
+.rule-gold {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-gold) 18%,
+    var(--color-gold) 82%,
+    transparent
+  );
+}
+
+@keyframes sheen {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-18deg);
+  }
+}
+
+@keyframes badge-pop {
+  0% {
+    transform: scale(0.6) rotate(-8deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.08) rotate(2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
