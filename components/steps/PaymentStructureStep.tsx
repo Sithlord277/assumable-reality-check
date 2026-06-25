@@ -66,7 +66,7 @@ export default function PaymentStructureStep() {
 
       {/* Scenario tab switcher */}
       <div>
-        <div className="mb-4 flex gap-2 rounded-2xl bg-cream-deep p-1">
+        <div className="mb-4 flex gap-2 rounded-xl border border-line bg-cream-deep p-1">
           {c.scenarios.map((s) => (
             <button
               key={s.id}
@@ -93,13 +93,13 @@ export default function PaymentStructureStep() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="glass rounded-2xl p-4"
+            className="advisor-surface rounded-tile p-4"
           >
             <p className="mb-4 text-sm font-semibold text-navy">{scenario.title}</p>
 
             <div className="flex flex-col gap-3">
               {tiles.map((tile, i) => (
-                <div key={i} className="rounded-xl bg-white/60 px-4 py-3">
+                <div key={i} className="rounded-xl border border-line bg-white-soft/80 px-4 py-3">
                   <p className="text-xs font-semibold uppercase tracking-wider text-ink/50">
                     {tile.label}
                   </p>
@@ -113,7 +113,8 @@ export default function PaymentStructureStep() {
               ))}
             </div>
 
-            <div className="mt-4 rounded-xl border-l-4 border-gold bg-gold/5 px-4 py-3">
+            <div className="mt-4 rounded-xl border border-gold/30 bg-gold/8 px-4 py-3">
+              <div className="premium-rule mb-3 w-16" />
               <p className="text-sm leading-relaxed text-charcoal">{scenario.note}</p>
             </div>
           </motion.div>

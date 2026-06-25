@@ -29,21 +29,13 @@ export default function ChoiceGrid<T extends string>({
             onClick={() => onSelect(choice.value)}
             whileTap={{ scale: 0.985 }}
             className={[
-              "group relative flex w-full items-center gap-3 overflow-hidden rounded-2xl border px-5 py-4 text-left text-base font-medium transition-all duration-200",
+              "group relative flex w-full items-center gap-3 rounded-xl border px-5 py-4 text-left text-base font-medium transition-all duration-200",
               "focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40",
               isSelected
-                ? "border-navy bg-navy text-cream shadow-soft"
-                : "border-line bg-white/70 text-charcoal hover:border-gold/50 hover:bg-white hover:shadow-soft",
+                ? "border-navy bg-navy text-cream"
+                : "border-line bg-white-soft/85 text-charcoal hover:border-gold/60 hover:bg-white-soft",
             ].join(" ")}
           >
-            {/* Gold accent bar slides in on the selected option. */}
-            <span
-              className={[
-                "absolute inset-y-0 left-0 w-1 origin-top bg-gold transition-transform duration-200",
-                isSelected ? "scale-y-100" : "scale-y-0",
-              ].join(" ")}
-            />
-
             <span
               className={[
                 "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors",

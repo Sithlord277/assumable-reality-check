@@ -24,13 +24,13 @@ export default function CtaButton({
   arrow = false,
 }: CtaButtonProps) {
   const base =
-    "group relative w-full overflow-hidden rounded-2xl px-6 py-4 text-center text-base font-semibold tracking-tight transition-all duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40 disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none";
+    "group relative w-full overflow-hidden rounded-xl px-6 py-4 text-center text-base font-semibold tracking-tight transition-all duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40 disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none";
 
   const styles = {
     primary:
-      "bg-navy text-cream shadow-soft hover:shadow-lift hover:-translate-y-0.5",
-    gold: "bg-gradient-to-b from-gold-soft to-gold-deep text-navy shadow-gold hover:shadow-lift hover:-translate-y-0.5",
-    ghost: "bg-transparent text-navy hover:bg-cream-deep",
+      "bg-navy text-cream shadow-soft hover:bg-navy-deep hover:shadow-lift hover:-translate-y-0.5",
+    gold: "bg-gold text-navy shadow-gold hover:bg-gold-soft hover:shadow-lift hover:-translate-y-0.5",
+    ghost: "bg-transparent text-navy ring-1 ring-line hover:bg-cream-deep",
   }[variant];
 
   const showSheen = variant !== "ghost";
@@ -44,7 +44,7 @@ export default function CtaButton({
       className={`${base} ${styles} ${className}`}
     >
       {showSheen && (
-        <span className="pointer-events-none absolute inset-0 -translate-x-[120%] skew-x-[-18deg] bg-white/20 transition-transform duration-700 ease-out group-hover:translate-x-[220%]" />
+        <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/45" />
       )}
       <span className="relative z-10 inline-flex items-center justify-center gap-2">
         {children}

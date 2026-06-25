@@ -103,7 +103,7 @@ export default function ResultStep() {
     <div className="flex flex-1 flex-col gap-7 pb-2">
       {/* Certificate header */}
       <motion.div
-        className="relative overflow-hidden rounded-tile border border-line/70 glass px-6 pb-7 pt-6 text-center"
+        className="advisor-surface relative overflow-hidden rounded-tile px-6 pb-7 pt-6 text-center"
         initial={{ opacity: 0, y: 18, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -111,20 +111,7 @@ export default function ResultStep() {
         {/* Celebration burst */}
         <CelebrationBurst active={revealed} />
 
-        {/* Gold corner flourishes */}
-        <span className="pointer-events-none absolute left-3 top-3 h-6 w-6 rounded-tl-xl border-l-2 border-t-2 border-gold/40" />
-        <span className="pointer-events-none absolute right-3 top-3 h-6 w-6 rounded-tr-xl border-r-2 border-t-2 border-gold/40" />
-        <span className="pointer-events-none absolute bottom-3 left-3 h-6 w-6 rounded-bl-xl border-b-2 border-l-2 border-gold/40" />
-        <span className="pointer-events-none absolute bottom-3 right-3 h-6 w-6 rounded-br-xl border-b-2 border-r-2 border-gold/40" />
-
-        {/* PHOTO SLOT: replace SVG with <img src="/home-photo.jpg" className="absolute inset-0 h-full w-full object-cover opacity-[0.07] pointer-events-none" alt="" /> */}
-        <svg viewBox="0 0 200 140" className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.045]" fill="none" stroke="currentColor" strokeWidth={1} aria-hidden>
-          <path d="M100 20 L160 65 L160 120 L40 120 L40 65 Z" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M80 120 L80 90 Q80 82 88 82 L112 82 Q120 82 120 90 L120 120" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M55 120 L55 95 L75 95 L75 120" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M125 120 L125 95 L145 95 L145 120" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="100" cy="52" r="6" />
-        </svg>
+        <div className="premium-rule relative mx-auto mb-5 w-28" />
 
         <p className="relative text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-gold">
           Reality Check Complete
@@ -155,7 +142,7 @@ export default function ResultStep() {
               initial={{ opacity: 0, scale: 0.8, y: 8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.1, type: "spring", stiffness: 320, damping: 18 }}
-              className="glass flex items-center gap-2.5 rounded-2xl px-3 py-2.5"
+              className="advisor-surface flex items-center gap-2.5 rounded-xl px-3 py-2.5"
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber/12 text-amber ring-1 ring-amber/25">
                 <ConceptIcon id={c.id} className="h-[18px] w-[18px]" />
@@ -204,7 +191,8 @@ export default function ResultStep() {
           </div>
         </div>
 
-        <div className="mt-4 rounded-2xl border-l-4 border-gold bg-white/5 px-4 py-3">
+        <div className="mt-4 rounded-xl border border-gold/25 bg-white/5 px-4 py-3">
+          <div className="premium-rule mb-3 w-16" />
           <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-gold-soft">
             What happens next
           </p>
@@ -227,11 +215,11 @@ export default function ResultStep() {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setAgentAnswer(choice.value as AgentAnswer)}
                 className={[
-                  "w-full rounded-2xl border px-5 py-3 text-left text-sm font-medium transition-colors",
+                  "w-full rounded-xl border px-5 py-3 text-left text-sm font-medium transition-colors",
                   "focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40",
                   isSelected
                     ? "border-navy bg-navy text-cream"
-                    : "glass border-line/60 text-charcoal hover:border-amber/50",
+                    : "advisor-surface border-line/60 text-charcoal hover:border-amber/50",
                 ].join(" ")}
               >
                 {choice.label}
@@ -242,7 +230,7 @@ export default function ResultStep() {
       </div>
 
       {/* Booking CTA — primary, prominent */}
-      <div className="rounded-tile border border-amber/20 bg-gradient-to-br from-amber/8 via-transparent to-transparent px-5 py-5 shadow-soft">
+      <div className="advisor-surface rounded-tile px-5 py-5">
         <div className="mb-4 flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

@@ -34,51 +34,27 @@ function StepRenderer() {
   }
 }
 
-/** Slow-drifting gradient blobs that form the ambient mesh background. */
-function GradientMesh() {
+function AdvisorBackdrop() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
-      {/* Top-center gold glow */}
       <div
-        className="absolute -top-32 left-1/2 h-[480px] w-[480px] -translate-x-1/2 rounded-full opacity-30"
+        className="absolute inset-x-0 top-0 h-40"
         style={{
-          background: "radial-gradient(circle, #c6a24a 0%, transparent 70%)",
-          filter: "blur(72px)",
-          animation: "drift-a 18s ease-in-out infinite alternate",
+          background:
+            "linear-gradient(180deg, rgba(30,58,95,0.12) 0%, rgba(198,162,74,0.08) 48%, transparent 100%)",
         }}
       />
-      {/* Left amber blob */}
       <div
-        className="absolute -left-32 top-1/4 h-[400px] w-[400px] rounded-full opacity-25"
-        style={{
-          background: "radial-gradient(circle, #e2a33f 0%, transparent 70%)",
-          filter: "blur(80px)",
-          animation: "drift-b 22s ease-in-out infinite alternate",
-        }}
+        className="absolute left-0 top-0 h-full w-[8px] bg-navy/85 shadow-soft sm:left-[calc(50%-16rem)]"
       />
-      {/* Right sunset blob */}
       <div
-        className="absolute -right-24 top-1/3 h-[360px] w-[360px] rounded-full opacity-20"
-        style={{
-          background: "radial-gradient(circle, #e08a4b 0%, transparent 70%)",
-          filter: "blur(90px)",
-          animation: "drift-c 26s ease-in-out infinite alternate",
-        }}
+        className="absolute left-[8px] top-0 h-full w-[2px] bg-gold/75 sm:left-[calc(50%-16rem+8px)]"
       />
-      {/* Bottom peach bloom */}
       <div
-        className="absolute -bottom-24 left-1/3 h-[320px] w-[320px] rounded-full opacity-22"
+        className="absolute inset-x-0 bottom-0 h-36"
         style={{
-          background: "radial-gradient(circle, #f6dfc0 0%, transparent 70%)",
-          filter: "blur(70px)",
-          animation: "drift-a 20s ease-in-out 4s infinite alternate",
-        }}
-      />
-      {/* Film grain overlay */}
-      <div
-        className="absolute inset-0 opacity-40 mix-blend-multiply"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`,
+          background:
+            "linear-gradient(0deg, rgba(30,58,95,0.08) 0%, transparent 100%)",
         }}
       />
     </div>
@@ -121,9 +97,9 @@ function Shell() {
 
   return (
     <>
-      <GradientMesh />
+      <AdvisorBackdrop />
       <UnlockToast concept={unlock} />
-      <main className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-md flex-col px-5 pb-10 pt-6">
+      <main className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-md flex-col px-6 pb-10 pt-8">
         {showHeader && (
           <div className={showRail ? "mb-7" : "mb-6"}>
             <div className="relative flex items-center justify-center">

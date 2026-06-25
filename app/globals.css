@@ -1,41 +1,36 @@
 @import "tailwindcss";
 
-/* Brand tokens (Tailwind v4 CSS-first theme). These generate utilities like
-   bg-navy, text-gold, border-line, rounded-tile, shadow-tile, font-display, etc.
-   Hexes are derived from the Elevate48 / Libertas logos; see branding/brand_assets.md. */
+/* Brand tokens (Tailwind v4 CSS-first theme). Hexes are derived from the
+   Elevate48 / Libertas logos; see Branding/brand_assets.md. */
 @theme {
-  /* ── Brand anchors ── */
   --color-navy: #1e3a5f;
   --color-navy-deep: #15293f;
   --color-gold: #c6a24a;
   --color-gold-soft: #d9bd74;
   --color-gold-deep: #a8842f;
-  --color-charcoal: #2b2b2b;
-  --color-ink: #3d3d3d;
-  --color-cream: #faf7f2;
-  --color-cream-deep: #f1eae0;
-  --color-line: #e7ded0;
+  --color-charcoal: #262a2f;
+  --color-ink: #313942;
+  --color-cream: #f8f6f1;
+  --color-cream-deep: #ece6db;
+  --color-line: #ddd4c5;
+  --color-white-soft: #fffdf8;
 
-  /* ── Warm sunset palette (new) ── */
-  --color-amber: #e2a33f;
-  --color-sunset: #e08a4b;
-  --color-coral: #d2674a;
-  --color-peach: #f6dfc0;
+  --color-amber: #d88f2f;
+  --color-sunset: #c96947;
+  --color-coral: #b65442;
+  --color-peach: #f2d6b4;
 
-  /* Fraunces for display headlines, Plus Jakarta Sans for body. */
   --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
 
-  --radius-tile: 1.5rem;
+  --radius-tile: 0.875rem;
 
-  --shadow-tile: 0 18px 40px -20px rgba(30, 58, 95, 0.28);
-  --shadow-soft: 0 8px 22px -12px rgba(30, 58, 95, 0.18);
-  --shadow-gold: 0 16px 36px -16px rgba(168, 132, 47, 0.5);
-  --shadow-lift: 0 28px 60px -24px rgba(30, 58, 95, 0.4);
-  --shadow-glass: 0 8px 32px -8px rgba(30, 58, 95, 0.18), inset 0 1px 0 rgba(255,255,255,0.6);
+  --shadow-tile: 0 6px 12px -8px rgba(30, 58, 95, 0.24);
+  --shadow-soft: 0 6px 14px -10px rgba(30, 58, 95, 0.2);
+  --shadow-gold: 0 8px 14px -10px rgba(168, 132, 47, 0.5);
+  --shadow-lift: 0 10px 18px -12px rgba(30, 58, 95, 0.32);
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-
   --animate-sheen: sheen 0.9s var(--ease-out-expo);
 }
 
@@ -47,39 +42,42 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Warm base — gradient mesh blobs are rendered as fixed divs in Shell()
-   so they can animate via Framer Motion. Body stays a solid warm cream. */
 body {
-  background-color: var(--color-cream);
+  background:
+    linear-gradient(180deg, #f8f6f1 0%, #f3efe7 52%, #f8f6f1 100%);
   background-attachment: fixed;
 }
 
-/* Fine film grain over everything for a printed, tactile feel. */
+/* A quiet paper-like texture keeps the product from feeling like a flat form. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.4;
+  opacity: 0.16;
   mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-image:
+    linear-gradient(rgba(30, 58, 95, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 58, 95, 0.04) 1px, transparent 1px);
+  background-size: 36px 36px;
 }
 
-/* Headlines lean on the display serif everywhere, no per-component class needed.
-   Tailwind font utilities still override where I want sans (e.g. tabular numbers). */
 h1,
 h2 {
   font-family: var(--font-display);
-  letter-spacing: -0.018em;
+  letter-spacing: 0;
+  text-wrap: balance;
 }
 
-/* Financial figures read cleaner with fixed-width digits. */
+p {
+  text-wrap: pretty;
+}
+
 .tabular {
   font-variant-numeric: tabular-nums;
 }
 
-/* Hairline gold rule used as a section divider / decorative flourish. */
 .rule-gold {
   height: 1px;
   background: linear-gradient(
@@ -88,6 +86,17 @@ h2 {
     var(--color-gold) 18%,
     var(--color-gold) 82%,
     transparent
+  );
+}
+
+.premium-rule {
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--color-navy) 0%,
+    var(--color-navy) 35%,
+    var(--color-gold) 35%,
+    var(--color-gold) 100%
   );
 }
 
@@ -114,31 +123,28 @@ h2 {
   }
 }
 
-/* ── Glassmorphism card utility ────────────────────────────────────────── */
-.glass {
-  background: rgba(250, 247, 242, 0.60);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow: var(--shadow-glass);
+.glass,
+.advisor-surface {
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.98), rgba(250, 247, 242, 0.94));
+  border: 1px solid var(--color-line);
+}
+
+.advisor-surface {
+  box-shadow: var(--shadow-soft);
 }
 
 .glass-dark {
-  background: rgba(21, 41, 63, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow: var(--shadow-lift);
+  background: linear-gradient(180deg, var(--color-navy) 0%, var(--color-navy-deep) 100%);
+  border: 1px solid rgba(217, 189, 116, 0.24);
 }
 
-/* ── Inline highlighter emphasis ────────────────────────────────────────── */
-/* Applied by RichText.tsx — *text* becomes a warm amber marker stroke. */
 mark.highlight {
   background: linear-gradient(
     104deg,
     transparent 0%,
-    rgba(226, 163, 63, 0.28) 4%,
-    rgba(226, 163, 63, 0.32) 92%,
+    rgba(216, 143, 47, 0.26) 4%,
+    rgba(216, 143, 47, 0.32) 92%,
     transparent 96%
   );
   color: var(--color-navy-deep);
@@ -150,13 +156,11 @@ mark.highlight {
   box-decoration-break: clone;
 }
 
-/* **text** becomes bold navy emphasis */
 strong.emphasis {
   color: var(--color-navy);
   font-weight: 800;
 }
 
-/* ── Celebration sparkle dots ────────────────────────────────────────────── */
 .sparkle {
   position: absolute;
   border-radius: 50%;
@@ -165,39 +169,16 @@ strong.emphasis {
 }
 
 @keyframes sparkle-pop {
-  0%   { transform: scale(0) translate(0,0); opacity: 1; }
-  60%  { opacity: 0.9; }
-  100% { transform: scale(1) var(--spark-translate); opacity: 0; }
-}
-
-/* ── Gradient mesh blob drift ─────────────────────────────────────────── */
-@keyframes drift-a {
-  0%   { transform: translate(0, 0) scale(1); }
-  50%  { transform: translate(6%, 4%) scale(1.08); }
-  100% { transform: translate(-3%, 7%) scale(0.96); }
-}
-@keyframes drift-b {
-  0%   { transform: translate(0, 0) scale(1); }
-  50%  { transform: translate(-5%, -3%) scale(1.06); }
-  100% { transform: translate(4%, -6%) scale(1.02); }
-}
-@keyframes drift-c {
-  0%   { transform: translate(0, 0) scale(1); }
-  50%  { transform: translate(3%, -5%) scale(1.04); }
-  100% { transform: translate(-6%, 3%) scale(0.98); }
-}
-
-@keyframes badge-pop {
   0% {
-    transform: scale(0.6) rotate(-8deg);
-    opacity: 0;
+    transform: scale(0) translate(0, 0);
+    opacity: 1;
   }
   60% {
-    transform: scale(1.08) rotate(2deg);
+    opacity: 0.9;
   }
   100% {
-    transform: scale(1) rotate(0);
-    opacity: 1;
+    transform: scale(1) var(--spark-translate);
+    opacity: 0;
   }
 }
 

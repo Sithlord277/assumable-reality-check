@@ -77,7 +77,7 @@ export default function WelcomeStep() {
           <RichText>{welcome.body}</RichText>
         </motion.div>
 
-        {/* Callout — glass treatment, subtle glow pulse */}
+        {/* Advisor callout anchors the promise before the flow starts. */}
         <motion.div
           custom={4}
           variants={fade}
@@ -85,19 +85,12 @@ export default function WelcomeStep() {
           animate="show"
           className="mt-6"
         >
-          <motion.div
-            className="glass rounded-tile px-5 py-4"
-            animate={{ boxShadow: [
-              "0 8px 32px -8px rgba(198,162,74,0.12)",
-              "0 8px 32px -4px rgba(198,162,74,0.28)",
-              "0 8px 32px -8px rgba(198,162,74,0.12)",
-            ]}}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          >
+          <div className="advisor-surface rounded-tile px-5 py-4">
+            <div className="premium-rule mb-4 w-24" />
             <p className="font-display text-lg italic leading-snug text-navy">
               <RichText inline>{welcome.reassure}</RichText>
             </p>
-          </motion.div>
+          </div>
         </motion.div>
 
         <motion.div
@@ -110,7 +103,7 @@ export default function WelcomeStep() {
           {TRUST.map((t) => (
             <span
               key={t.label}
-              className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white/60 px-3 py-1.5 text-xs font-semibold text-ink/70"
+              className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white-soft/85 px-3 py-1.5 text-xs font-semibold text-ink"
             >
               <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 6 9 17l-5-5" />

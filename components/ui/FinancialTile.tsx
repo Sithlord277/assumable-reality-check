@@ -12,9 +12,9 @@ export default function FinancialTile({
   variant = "default",
 }: FinancialTileProps) {
   const styles = {
-    default: "bg-white/85 border border-line",
-    navy: "bg-gradient-to-br from-navy to-navy-deep border border-navy",
-    gap: "bg-gradient-to-br from-gold/15 to-gold/5 border-2 border-dashed border-gold ring-4 ring-gold/10",
+    default: "bg-white-soft border border-line",
+    navy: "bg-navy border border-navy",
+    gap: "bg-gold/12 border-2 border-gold",
   };
 
   const labelColor = {
@@ -36,7 +36,7 @@ export default function FinancialTile({
   };
 
   return (
-    <div className={`rounded-2xl px-5 py-4 shadow-tile ${styles[variant]}`}>
+    <div className={`rounded-xl px-5 py-4 ${styles[variant]}`}>
       <p className={`text-[0.68rem] font-semibold uppercase tracking-[0.18em] ${labelColor[variant]}`}>
         {label}
       </p>

@@ -26,7 +26,6 @@ export default function WhatIsAssumableStep() {
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      {/* Headline */}
       <div>
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gold">
           {c.stepLabel}
@@ -36,22 +35,25 @@ export default function WhatIsAssumableStep() {
         </h2>
       </div>
 
-      {/* Lesson */}
       <RichText className="text-base leading-relaxed text-charcoal">{c.lesson}</RichText>
 
-      {/* Visual: two-layer home card */}
       <div>
         <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink/50">
           {c.visual.label}
         </p>
-        <div className="glass rounded-2xl p-4">
-          {/* Home icon row */}
+        <div className="advisor-surface rounded-tile p-4">
           <div className="mb-4 flex items-center gap-2">
-            <span className="text-2xl" role="img" aria-label="house">🏠</span>
-            <span className="text-sm font-semibold text-navy">{c.visual.homePrice} — {ex.price}</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-navy/8 text-navy" aria-hidden>
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" />
+                <path d="M9 21v-7h6v7" />
+              </svg>
+            </span>
+            <span className="text-sm font-semibold text-navy">
+              {c.visual.homePrice} - {ex.price}
+            </span>
           </div>
 
-          {/* Layer 1: Existing loan (dynamic) */}
           <div className="mb-3 rounded-xl bg-navy px-4 py-3">
             <p className="text-xs font-semibold uppercase tracking-widest text-cream/60">
               {c.visual.existingLoan}
@@ -60,16 +62,15 @@ export default function WhatIsAssumableStep() {
             <p className="text-xs text-cream/50">{c.visual.rateNote}</p>
           </div>
 
-          {/* Rate comparison row */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl bg-amber/10 px-3 py-3 text-center">
+            <div className="rounded-xl border border-amber/25 bg-amber/10 px-3 py-3 text-center">
               <p className="text-xs font-semibold uppercase tracking-wider text-amber">
                 {c.visual.existingRate}
               </p>
               <p className="mt-1 text-2xl font-extrabold tabular text-navy">3.25%</p>
               <p className="text-xs text-ink/50">{c.visual.rateNote}</p>
             </div>
-            <div className="rounded-xl bg-cream-deep px-3 py-3 text-center">
+            <div className="rounded-xl border border-line bg-cream-deep px-3 py-3 text-center">
               <p className="text-xs font-semibold uppercase tracking-wider text-ink/60">
                 {c.visual.todayRate}
               </p>
@@ -80,10 +81,8 @@ export default function WhatIsAssumableStep() {
         </div>
       </div>
 
-      {/* Insight card */}
       <InsightCard label={c.insight.label}>{c.insight.body}</InsightCard>
 
-      {/* Question */}
       <div>
         <p className="mb-3 text-base font-semibold text-navy">{c.question}</p>
         <ChoiceGrid<AttentionAnswer>

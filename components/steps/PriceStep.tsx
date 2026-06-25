@@ -123,7 +123,7 @@ export default function PriceStep() {
             onChange={handleChange}
             onBlur={handleBlur}
             placeholder="450,000"
-            className="w-full rounded-2xl border border-line bg-white/80 py-4 pl-8 pr-4 text-xl font-extrabold tabular text-navy placeholder:text-ink/30 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25"
+            className="w-full rounded-xl border border-line bg-white-soft/90 py-4 pl-8 pr-4 text-xl font-extrabold tabular text-navy placeholder:text-ink/45 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25"
           />
         </div>
         {clamped && (

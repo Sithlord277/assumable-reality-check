@@ -6,34 +6,34 @@ import { useFlow } from "@/lib/state";
 import { eligibility as c } from "@/lib/content";
 import type { EligibilityAnswer } from "@/lib/types";
 import ChoiceGrid from "@/components/ui/ChoiceGrid";
-import InsightCard from "@/components/ui/InsightCard";
 import CtaButton from "@/components/ui/CtaButton";
 import RichText from "@/components/ui/RichText";
 
-/* ── Icons ─────────────────────────────────────────────────────────────── */
 function HouseIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" />
-      <path d="M9 21V12h6v9" />
+      <path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
+      <path d="M9 21v-9h6v9" />
     </svg>
   );
 }
+
 function ShieldIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2L4 6v6c0 5 3.6 9.3 8 10.3C16.4 21.3 20 17 20 12V6l-8-4z" />
-      <path d="M9 12l2 2 4-4" />
+      <path d="M12 2 4 6v6c0 5 3.6 9.3 8 10.3 4.4-1 8-5.3 8-10.3V6l-8-4z" />
+      <path d="m9 12 2 2 4-4" />
     </svg>
   );
 }
+
 function FieldIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2a7 7 0 010 14" />
-      <path d="M12 16v6" />
-      <path d="M9 19h6" />
-      <path d="M5 8c0 2 2 4 7 4s7-2 7-4" />
+      <path d="M4 18c4-4 12-4 16 0" />
+      <path d="M6 14c3-3 9-3 12 0" />
+      <path d="M12 4v16" />
+      <path d="M8 8h8" />
     </svg>
   );
 }
@@ -44,7 +44,6 @@ function getIcon(id: string) {
   return FieldIcon;
 }
 
-/* ── Loan Tile (compact front-face) ────────────────────────────────────── */
 function LoanTile({
   card,
   index,
@@ -58,34 +57,27 @@ function LoanTile({
   return (
     <motion.button
       type="button"
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.1 + index * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ scale: 1.04, y: -2 }}
-      whileTap={{ scale: 0.96 }}
+      transition={{ delay: 0.08 + index * 0.06, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      whileTap={{ scale: 0.98 }}
       onClick={onOpen}
-      className="glass flex flex-col items-center justify-center gap-3 rounded-2xl px-2 py-5 text-center cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 transition-shadow hover:shadow-lift"
+      aria-label={`Open ${card.front.label} details`}
+      className="advisor-surface flex min-h-[132px] flex-col items-center justify-center gap-3 rounded-tile px-2 py-4 text-center transition-colors hover:border-gold/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
     >
-      {/* Icon with gentle breathing animation */}
-      <motion.span
-        className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber/15 text-amber ring-1 ring-amber/30"
-        animate={{ scale: [1, 1.06, 1] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: index * 0.6 }}
-      >
+      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber/12 text-amber ring-1 ring-amber/25">
         <Icon className="h-6 w-6" />
-      </motion.span>
+      </span>
       <div>
         <p className="text-[0.78rem] font-extrabold leading-tight text-navy">{card.front.label}</p>
-        <p className="mt-0.5 text-[0.63rem] font-semibold uppercase tracking-wider text-ink/45">
+        <p className="mt-1 text-[0.63rem] font-semibold uppercase tracking-wider text-ink/55">
           {card.front.hook}
         </p>
       </div>
-      <span className="text-[0.6rem] font-semibold text-amber/80 tracking-wide">Tap to learn more</span>
     </motion.button>
   );
 }
 
-/* ── Centered Detail Modal ──────────────────────────────────────────────── */
 function LoanModal({
   card,
   onClose,
@@ -98,29 +90,25 @@ function LoanModal({
   return (
     <AnimatePresence>
       {card && (
-        /* Backdrop */
         <motion.div
           key="backdrop"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.18 }}
           onClick={onClose}
-          className="fixed inset-0 z-50 flex items-center justify-center px-6"
-          style={{ background: "rgba(21, 41, 63, 0.55)", backdropFilter: "blur(6px)" }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-navy/55 px-6"
         >
-          {/* Card — stop propagation so clicking the card itself still closes (matches "touch it again" UX) */}
           <motion.div
             key="card"
-            initial={{ opacity: 0, scale: 0.88, y: 16 }}
+            initial={{ opacity: 0, scale: 0.96, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 8 }}
-            transition={{ type: "spring", stiffness: 320, damping: 22 }}
-            onClick={onClose}
-            className="glass-dark w-full max-w-sm rounded-2xl px-6 pb-6 pt-5 text-cream"
+            exit={{ opacity: 0, scale: 0.98, y: 6 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            onClick={(event) => event.stopPropagation()}
+            className="glass-dark w-full max-w-sm rounded-tile px-6 pb-6 pt-5 text-cream shadow-lift"
           >
-            {/* Close affordance */}
-            <div className="mb-4 flex items-center justify-between gap-3">
+            <div className="mb-5 flex items-start justify-between gap-4">
               <div className="flex items-center gap-3">
                 {Icon && (
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber/20 text-amber ring-1 ring-amber/30">
@@ -131,23 +119,26 @@ function LoanModal({
                   {card.back.label}
                 </p>
               </div>
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/10 text-cream/60 text-lg leading-none">
-                ×
-              </span>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-cream/80 transition-colors hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
+                  <path d="M6 6l12 12M18 6 6 18" />
+                </svg>
+              </button>
             </div>
 
             <div className="flex flex-col gap-3">
-              {card.back.points.map((pt, i) => (
-                <div key={i} className="flex items-start gap-3">
+              {card.back.points.map((pt) => (
+                <div key={pt} className="flex items-start gap-3">
                   <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full bg-amber" />
                   <p className="text-sm leading-relaxed text-cream/90">{pt}</p>
                 </div>
               ))}
             </div>
-
-            <p className="mt-5 text-center text-[0.62rem] font-medium text-cream/35">
-              Tap anywhere to close
-            </p>
           </motion.div>
         </motion.div>
       )}
@@ -155,7 +146,6 @@ function LoanModal({
   );
 }
 
-/* ── Step ───────────────────────────────────────────────────────────────── */
 export default function EligibilityStep() {
   const { next, setAnswer, answers } = useFlow();
   const [selected, setSelected] = useState<EligibilityAnswer | undefined>(
@@ -181,7 +171,6 @@ export default function EligibilityStep() {
 
       <p className="text-base leading-relaxed text-charcoal">{c.intro}</p>
 
-      {/* Three compact loan tiles */}
       <div className="grid grid-cols-3 gap-2.5">
         {c.flipCards.map((card, i) => (
           <LoanTile
@@ -193,23 +182,14 @@ export default function EligibilityStep() {
         ))}
       </div>
 
-      {/* VA non-vet "wow" fact — celebratory treatment */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.35, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="relative overflow-hidden rounded-2xl border border-amber/30 bg-gradient-to-br from-amber/10 via-peach/30 to-transparent px-5 py-4 shadow-soft">
-          {/* Floating star */}
-          <motion.span
-            className="absolute right-4 top-3 font-display text-3xl text-amber/30 select-none"
-            aria-hidden
-            animate={{ y: [0, -4, 0], rotate: [0, 8, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          >
-            ✦
-          </motion.span>
-          <p className="mb-1 text-[0.65rem] font-bold uppercase tracking-widest text-amber">
+        <div className="advisor-surface rounded-tile px-5 py-4">
+          <div className="premium-rule mb-4 w-20" />
+          <p className="mb-1 text-[0.72rem] font-bold uppercase tracking-widest text-amber">
             {c.funFact.label}
           </p>
           <p className="text-sm leading-relaxed text-charcoal">
@@ -231,7 +211,6 @@ export default function EligibilityStep() {
         {c.cta}
       </CtaButton>
 
-      {/* Centered detail modal */}
       <LoanModal card={activeCard} onClose={() => setActiveCard(null)} />
     </div>
   );

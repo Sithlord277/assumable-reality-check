@@ -23,6 +23,11 @@ export default function ClarityGauge({
 
   useEffect(() => {
     if (!start) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setN(value);
+      return;
+    }
+
     let raf = 0;
     const duration = 1300;
     const t0 = performance.now();
