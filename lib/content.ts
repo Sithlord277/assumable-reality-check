@@ -169,6 +169,15 @@ export const paymentStructure = {
 export const equityGap = {
   stepLabel: "The equity gap",
   headline: "Here's the part that doesn't make it onto the listing flyer.",
+  video: {
+    eyebrow: "42-sec video guide",
+    title: "First, see why the low rate is only half the story.",
+    duration: "Watch the quick explanation, then answer with your own numbers in mind.",
+    src: "/videos/equity-gap-explainer.mp4",
+    poster: "/videos/equity-gap-explainer.jpg",
+  },
+  summary:
+    "The assumable loan can carry the old rate. The gap is the part you still have to solve before the deal works.",
   lesson:
     "The seller's assumable loan balance and the home's purchase price are *almost never the same number*. The difference between them is called the **equity gap**. It doesn't go away just because the rate is attractive. That gap has to be solved — with cash, a second loan, negotiation, or some combination. The rate is the exciting part. *The equity gap is where the deal either works or doesn't.*",
   // Visual dollar figures are computed dynamically from the user's purchase price in EquityGapStep.

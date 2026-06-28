@@ -5,11 +5,11 @@ import { useFlow } from "@/lib/state";
 import { equityGap } from "@/lib/content";
 import { computeExample } from "@/lib/finance";
 import type { GapCashBracket } from "@/lib/types";
-import FinancialTile from "@/components/ui/FinancialTile";
 import ChoiceGrid from "@/components/ui/ChoiceGrid";
-import InsightCard from "@/components/ui/InsightCard";
 import CtaButton from "@/components/ui/CtaButton";
+import InsightCard from "@/components/ui/InsightCard";
 import RichText from "@/components/ui/RichText";
+import VideoExplainer from "@/components/ui/VideoExplainer";
 
 export default function EquityGapStep() {
   const { next, setAnswer, answers } = useFlow();
@@ -17,17 +17,15 @@ export default function EquityGapStep() {
     answers.gapCash
   );
   const ex = computeExample(answers.purchasePrice ?? 500_000);
+  const c = equityGap;
 
   function handleSelect(value: GapCashBracket) {
     setSelected(value);
     setAnswer({ gapCash: value });
   }
 
-  const c = equityGap;
-
   return (
-    <div className="flex flex-1 flex-col gap-6">
-      {/* Headline */}
+    <div className="flex flex-1 flex-col gap-5">
       <div>
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gold">
           {c.stepLabel}
@@ -37,51 +35,55 @@ export default function EquityGapStep() {
         </h2>
       </div>
 
-      {/* Lesson */}
-      <RichText className="text-base leading-relaxed text-charcoal">{c.lesson}</RichText>
+      <VideoExplainer
+        eyebrow={c.video.eyebrow}
+        title={c.video.title}
+        duration={c.video.duration}
+        src={c.video.src}
+        poster={c.video.poster}
+      />
 
-      {/* Financial tiles visual — all dynamic */}
-      <div>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink/50">
-          {c.visual.label}
+      <div className="rounded-tile border border-line bg-white-soft/75 px-5 py-4">
+        <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-gold-deep">
+          Quick read
         </p>
-        <div className="flex flex-col gap-3">
-          <FinancialTile label="Purchase price" value={ex.price} />
+        <p className="mt-2 text-base font-semibold leading-relaxed text-navy">
+          {c.summary}
+        </p>
+      </div>
 
-          <div className="flex items-center gap-3 px-2">
-            <div className="h-px flex-1 bg-line" />
-            <span className="text-xs font-semibold text-ink/40">minus</span>
-            <div className="h-px flex-1 bg-line" />
+      <div className="advisor-surface rounded-tile px-5 py-4">
+        <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-gold-deep">
+          Your example numbers
+        </p>
+        <div className="mt-4 grid grid-cols-1 gap-3">
+          <div className="rounded-lg border border-line bg-white-soft px-4 py-3">
+            <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-ink/48">
+              Purchase price
+            </p>
+            <p className="mt-1 text-2xl font-extrabold tabular text-navy">{ex.price}</p>
           </div>
-
-          <FinancialTile
-            label="Seller's existing loan"
-            value={ex.currentBalance}
-            sub={c.visual.existingLoanSub}
-            variant="navy"
-          />
-
-          <div className="flex items-center gap-3 px-2">
-            <div className="h-px flex-1 bg-gold/40" />
-            <span className="text-xs font-semibold text-gold">equals</span>
-            <div className="h-px flex-1 bg-gold/40" />
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-lg bg-navy px-4 py-3 text-cream">
+              <p className="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-cream/55">
+                Loan assumed
+              </p>
+              <p className="mt-1 text-xl font-extrabold tabular">{ex.currentBalance}</p>
+            </div>
+            <div className="rounded-lg border-2 border-gold bg-gold/12 px-4 py-3">
+              <p className="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-gold-deep">
+                Gap
+              </p>
+              <p className="mt-1 text-xl font-extrabold tabular text-navy">{ex.gap}</p>
+            </div>
           </div>
-
-          <FinancialTile
-            label="Equity gap"
-            value={ex.gap}
-            sub={c.visual.gapSub}
-            variant="gap"
-          />
         </div>
       </div>
 
-      {/* Insight */}
       <InsightCard label={c.insight.label}>
         <RichText inline>{c.insight.body}</RichText>
       </InsightCard>
 
-      {/* Question */}
       <div>
         <p className="mb-3 text-base font-semibold text-navy">{c.question}</p>
         <ChoiceGrid<GapCashBracket>

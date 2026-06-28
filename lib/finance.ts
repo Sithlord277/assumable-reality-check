@@ -48,7 +48,7 @@ export interface ExampleFigures {
  *
  * Ratios (fixed per Martin):
  *   originalLoan   = 85% of price  (what the seller originally borrowed)
- *   currentBalance = 78% of price  (remaining after ~4 yrs of payments)
+ *   currentBalance = 80.7% of price (puts the $450k example near an $87k gap)
  *   gap            = price − currentBalance
  *   newLoan        = 90% of price  (10% down on new conventional)
  *
@@ -61,7 +61,7 @@ export function computeExample(price: number): ExampleFigures {
   const p = Math.max(price, 300_000);
 
   const originalLoan   = roundK(p * 0.85);
-  const currentBalance = roundK(p * 0.78);
+  const currentBalance = roundK(p * 0.807);
   const gap            = p - currentBalance;
   const newLoan        = roundK(p * 0.90);
 

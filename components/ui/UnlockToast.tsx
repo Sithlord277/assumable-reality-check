@@ -6,30 +6,30 @@ import ConceptIcon from "./ConceptIcon";
 
 export default function UnlockToast({ concept }: { concept: Concept | null }) {
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-5">
+    <div className="pointer-events-none fixed inset-x-0 bottom-5 z-50 flex justify-center px-5">
       <AnimatePresence>
         {concept && (
           <motion.div
             key={concept.id}
-            initial={{ opacity: 0, y: -28, scale: 0.92 }}
+            initial={{ opacity: 0, y: 18, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -16, scale: 0.96 }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="glass-dark flex w-full max-w-sm items-center gap-3 rounded-tile px-4 py-3 text-cream shadow-lift"
+            exit={{ opacity: 0, y: 14, scale: 0.98 }}
+            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            className="glass-dark flex w-full max-w-[18rem] items-center gap-2.5 rounded-full px-3 py-2 text-cream shadow-lift"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber/20 text-amber ring-1 ring-amber/30">
-              <ConceptIcon id={concept.id} className="h-5 w-5" />
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber/18 text-amber ring-1 ring-amber/25">
+              <ConceptIcon id={concept.id} className="h-4 w-4" />
             </span>
             <div className="min-w-0">
-              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold-soft">
-                Concept unlocked
+              <p className="text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-gold-soft">
+                Learned
               </p>
-              <p className="truncate font-display text-base font-semibold leading-tight text-cream">
+              <p className="truncate text-sm font-bold leading-tight text-cream">
                 {concept.label}
               </p>
             </div>
-            <span className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-amber text-navy">
-              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
+            <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-amber text-navy">
+              <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 6 9 17l-5-5" />
               </svg>
             </span>
