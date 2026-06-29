@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useFlow } from "@/lib/state";
+import { price } from "@/lib/content";
 import CtaButton from "@/components/ui/CtaButton";
+import VideoExplainer from "@/components/ui/VideoExplainer";
 
 const MIN_PRICE = 300_000;
 const DEFAULT_PRICE = 450_000;
@@ -74,7 +76,17 @@ export default function PriceStep() {
   return (
     <div className="flex flex-1 flex-col gap-7">
       <motion.div custom={0} variants={fade} initial="hidden" animate="show">
-        <h2 className="font-display text-[1.75rem] font-black leading-tight text-navy">
+        <VideoExplainer
+          eyebrow={price.video.eyebrow}
+          title={price.video.title}
+          duration={price.video.duration}
+          src={price.video.src}
+          poster={price.video.poster}
+        />
+      </motion.div>
+
+      <motion.div custom={1} variants={fade} initial="hidden" animate="show">
+        <h2 className="font-display text-[1.75rem] font-black leading-tight text-charcoal">
           What price range are you shopping in?
         </h2>
         <p className="mt-2 text-base leading-relaxed text-charcoal">
@@ -83,7 +95,7 @@ export default function PriceStep() {
       </motion.div>
 
       {/* Preset chips */}
-      <motion.div custom={1} variants={fade} initial="hidden" animate="show" className="flex flex-wrap gap-2">
+      <motion.div custom={2} variants={fade} initial="hidden" animate="show" className="flex flex-wrap gap-2">
         {PRESETS.map((p) => {
           const active = numericValue === p.value;
           return (
@@ -97,8 +109,8 @@ export default function PriceStep() {
                 "rounded-full border px-5 py-2.5 text-sm font-bold transition-colors",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50",
                 active
-                  ? "border-navy bg-navy text-cream shadow-soft"
-                  : "border-line bg-white/70 text-navy hover:border-gold/60 hover:bg-gold/5",
+                  ? "border-gold bg-gold text-cream shadow-gold"
+                  : "border-line bg-white/70 text-charcoal hover:border-gold/60 hover:bg-gold/5",
               ].join(" ")}
             >
               {p.label}
@@ -108,12 +120,12 @@ export default function PriceStep() {
       </motion.div>
 
       {/* Number field */}
-      <motion.div custom={2} variants={fade} initial="hidden" animate="show">
-        <label className="mb-2 block text-sm font-semibold text-navy">
+      <motion.div custom={3} variants={fade} initial="hidden" animate="show">
+        <label className="mb-2 block text-sm font-semibold text-charcoal">
           Or type your own
         </label>
         <div className="relative">
-          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-navy/40">
+          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-ink/40">
             $
           </span>
           <input
@@ -123,7 +135,7 @@ export default function PriceStep() {
             onChange={handleChange}
             onBlur={handleBlur}
             placeholder="450,000"
-            className="w-full rounded-xl border border-line bg-white-soft/90 py-4 pl-8 pr-4 text-xl font-extrabold tabular text-navy placeholder:text-ink/45 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25"
+            className="w-full rounded-xl border border-line bg-white-soft/90 py-4 pl-8 pr-4 text-xl font-extrabold tabular text-charcoal placeholder:text-ink/45 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25"
           />
         </div>
         {clamped && (
@@ -133,8 +145,8 @@ export default function PriceStep() {
         )}
       </motion.div>
 
-      <motion.div custom={3} variants={fade} initial="hidden" animate="show" className="mt-auto">
-        <CtaButton variant="gold" arrow onClick={handleContinue}>
+      <motion.div custom={4} variants={fade} initial="hidden" animate="show" className="mt-auto">
+        <CtaButton variant="primary" arrow onClick={handleContinue}>
           {isValid ? `Continue with ${formatDisplay(numericValue)}` : "Continue"}
         </CtaButton>
       </motion.div>

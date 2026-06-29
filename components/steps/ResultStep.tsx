@@ -11,6 +11,7 @@ import CtaButton from "@/components/ui/CtaButton";
 import ClarityGauge from "@/components/ui/ClarityGauge";
 import ConceptIcon from "@/components/ui/ConceptIcon";
 import Disclaimer from "@/components/ui/Disclaimer";
+import VideoExplainer from "@/components/ui/VideoExplainer";
 
 type AgentAnswer = "working-with-agent" | "no-agent" | "skip";
 
@@ -22,25 +23,25 @@ const toneStyles: Record<
   "strong" | "moderate" | "alt",
   { chip: string; dot: string }
 > = {
-  strong:   { chip: "bg-amber/15 text-amber ring-amber/30",   dot: "bg-amber" },
-  moderate: { chip: "bg-navy/10 text-navy ring-navy/20",       dot: "bg-navy" },
-  alt:      { chip: "bg-cream-deep text-ink/70 ring-line",     dot: "bg-ink/40" },
+  strong:   { chip: "bg-mint/15 text-mint-deep ring-mint/30",         dot: "bg-mint" },
+  moderate: { chip: "bg-violet-pale text-violet-deep ring-gold/20",    dot: "bg-gold" },
+  alt:      { chip: "bg-cream-deep text-ink/70 ring-line",             dot: "bg-ink/40" },
 };
 
 /* ── Celebration sparkle burst ────────────────────────────────────────── */
 const SPARKS = [
-  { x:  0,   y: -60, color: "#c6a24a", size: 10 },
-  { x:  52,  y: -32, color: "#e2a33f", size:  7 },
-  { x:  60,  y:  20, color: "#e08a4b", size:  9 },
-  { x:  30,  y:  58, color: "#c6a24a", size:  6 },
-  { x: -30,  y:  58, color: "#d9bd74", size:  8 },
-  { x: -60,  y:  20, color: "#e2a33f", size:  7 },
-  { x: -52,  y: -32, color: "#e08a4b", size: 10 },
-  { x: -14,  y: -62, color: "#c6a24a", size:  6 },
-  { x:  14,  y: -62, color: "#d9bd74", size:  8 },
-  { x:  65,  y: -10, color: "#e2a33f", size:  5 },
-  { x: -65,  y: -10, color: "#e08a4b", size:  5 },
-  { x:   0,  y:  68, color: "#c6a24a", size:  7 },
+  { x:  0,   y: -60, color: "#7C5CFF", size: 10 },
+  { x:  52,  y: -32, color: "#2DD4FF", size:  7 },
+  { x:  60,  y:  20, color: "#34E0A1", size:  9 },
+  { x:  30,  y:  58, color: "#7C5CFF", size:  6 },
+  { x: -30,  y:  58, color: "#A48BFF", size:  8 },
+  { x: -60,  y:  20, color: "#2DD4FF", size:  7 },
+  { x: -52,  y: -32, color: "#34E0A1", size: 10 },
+  { x: -14,  y: -62, color: "#7C5CFF", size:  6 },
+  { x:  14,  y: -62, color: "#2DD4FF", size:  8 },
+  { x:  65,  y: -10, color: "#34E0A1", size:  5 },
+  { x: -65,  y: -10, color: "#A48BFF", size:  5 },
+  { x:   0,  y:  68, color: "#7C5CFF", size:  7 },
 ];
 
 function CelebrationBurst({ active }: { active: boolean }) {
@@ -85,13 +86,13 @@ export default function ResultStep() {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
         <motion.div
-          className="h-16 w-16 rounded-full border-4 border-cream-deep border-t-amber"
+          className="h-16 w-16 rounded-full border-4 border-cream-deep border-t-gold"
           animate={{ rotate: 360 }}
           transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
         />
         <div>
-          <p className="font-display text-xl font-semibold text-navy">
-            Tallying your reality check
+          <p className="font-display text-xl font-semibold text-charcoal">
+            Mapping your opportunity
           </p>
           <p className="mt-1 text-sm text-ink/55">Reading your answers...</p>
         </div>
@@ -101,6 +102,23 @@ export default function ResultStep() {
 
   return (
     <div className="flex flex-1 flex-col gap-7 pb-2">
+      {/* Result intro video */}
+      {resultScreen.video.src && (
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <VideoExplainer
+            eyebrow={resultScreen.video.eyebrow}
+            title={resultScreen.video.title}
+            duration={resultScreen.video.duration}
+            src={resultScreen.video.src}
+            poster={resultScreen.video.poster}
+          />
+        </motion.div>
+      )}
+
       {/* Certificate header */}
       <motion.div
         className="advisor-surface relative overflow-hidden rounded-tile px-6 pb-7 pt-6 text-center"
@@ -114,7 +132,7 @@ export default function ResultStep() {
         <div className="premium-rule relative mx-auto mb-5 w-28" />
 
         <p className="relative text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-gold">
-          Reality Check Complete
+          Guide Complete
         </p>
 
         <div className="relative mt-5 flex justify-center">
@@ -130,7 +148,7 @@ export default function ResultStep() {
       {/* Concepts mastered */}
       <div>
         <div className="mb-3 flex items-center gap-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-navy">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-charcoal">
             Concepts you mastered
           </p>
           <div className="rule-gold flex-1 opacity-60" />
@@ -144,10 +162,10 @@ export default function ResultStep() {
               transition={{ delay: 0.3 + i * 0.1, type: "spring", stiffness: 320, damping: 18 }}
               className="advisor-surface flex items-center gap-2.5 rounded-xl px-3 py-2.5"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber/12 text-amber ring-1 ring-amber/25">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gold/12 text-gold ring-1 ring-gold/25">
                 <ConceptIcon id={c.id} className="h-[18px] w-[18px]" />
               </span>
-              <span className="text-[0.8rem] font-semibold leading-tight text-navy">
+              <span className="text-[0.8rem] font-semibold leading-tight text-charcoal">
                 {c.label}
               </span>
             </motion.div>
@@ -202,7 +220,7 @@ export default function ResultStep() {
 
       {/* Agent status */}
       <div>
-        <p className="mb-3 text-sm font-semibold text-navy">
+        <p className="mb-3 text-sm font-semibold text-charcoal">
           {resultScreen.agentQuestion}
         </p>
         <div className="flex flex-col gap-2">
@@ -218,8 +236,8 @@ export default function ResultStep() {
                   "w-full rounded-xl border px-5 py-3 text-left text-sm font-medium transition-colors",
                   "focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40",
                   isSelected
-                    ? "border-navy bg-navy text-cream"
-                    : "advisor-surface border-line/60 text-charcoal hover:border-amber/50",
+                    ? "border-gold bg-gold text-cream"
+                    : "advisor-surface border-line/60 text-charcoal hover:border-gold/50",
                 ].join(" ")}
               >
                 {choice.label}
@@ -239,7 +257,7 @@ export default function ResultStep() {
             className="h-12 w-12 shrink-0 rounded-full object-cover ring-2 ring-gold/30 shadow-soft"
           />
           <div>
-            <p className="font-display text-base font-bold text-navy">{resultScreen.bookingIntro}</p>
+            <p className="font-display text-base font-bold text-charcoal">{resultScreen.bookingIntro}</p>
             <p className="text-xs text-ink/55">{resultScreen.bookingSubtitle}</p>
           </div>
         </div>

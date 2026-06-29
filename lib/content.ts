@@ -3,7 +3,7 @@
 // Hard rules honored: no em dashes, no AI-tell phrases, one-beat clarity.
 
 export const brand = {
-  appName: "The Assumable Reality Check",
+  appName: "The Assumable Opportunity Guide",
   company: "Elevate48",
   team: "Libertas Real Estate",
   advisor: "Martin Tsatskin",
@@ -12,11 +12,14 @@ export const brand = {
 
 export const whatIsAssumable = {
   stepLabel: "What is an assumable loan?",
-  headline: "Some sellers are still carrying mortgages from a very different market.",
-  lesson: [
-    "An assumable loan lets a qualified buyer *take over the seller's existing mortgage* instead of starting a new one from scratch. The seller already has a loan with a rate locked in from whenever they bought. In some cases, you can step into that loan and keep their terms.",
-    "Not every mortgage works this way. **VA, FHA, and USDA loans** are the ones most likely to allow it. Conventional loans usually don't.",
-  ],
+  headline: "Same rate. Same balance. Same terms. Just a new name on it -- yours.",
+  video: {
+    eyebrow: "~50-sec explainer",
+    title: "Here's the actual mechanics, no jargon.",
+    duration: "Watch the quick explainer, then keep going.",
+    src: "/videos/what-is-assumable-explainer.mp4",
+    poster: "/videos/what-is-assumable-explainer.jpg",
+  },
   visual: {
     label: "A simplified picture of how it's structured:",
     homePrice: "Home purchase price",
@@ -24,10 +27,6 @@ export const whatIsAssumable = {
     existingRate: "Their rate",
     todayRate: "Today's rate",
     rateNote: "(example only)",
-  },
-  insight: {
-    label: "Here's the thing.",
-    body: "The exciting part is the rate. But the rate is only one piece of the deal. Whether the full structure actually works for you is the more important question. That's what this is for.",
   },
   question: "What first got your attention about assumable loans?",
   choices: [
@@ -43,8 +42,13 @@ export const whatIsAssumable = {
 export const eligibility = {
   stepLabel: "Loan type",
   headline: "FHA, VA, and USDA assumptions each play by different rules.",
-  intro:
-    "Whether an assumption is even on the table depends on what kind of loan the seller has. These three are the ones that allow it -- but they work differently, and the differences are worth knowing.",
+  video: {
+    eyebrow: "~45-sec explainer",
+    title: "Tap each card below to find yours.",
+    duration: "Watch the walkthrough, then explore the cards.",
+    src: "/videos/eligibility-explainer.mp4",
+    poster: "/videos/eligibility-explainer.jpg",
+  },
   flipCards: [
     {
       id: "fha",
@@ -86,10 +90,6 @@ export const eligibility = {
       },
     },
   ],
-  funFact: {
-    label: "Most people have never heard this.",
-    body: "You *do not have to be a veteran* to assume a VA loan. The rate and the terms come with the house. The seller's VA entitlement stays tied to the home until the loan is paid off -- but the buyer stepping in does not need to have served.",
-  },
   question: "Which of these sounds most like you?",
   choices: [
     { value: "va" as const, label: "I'm a veteran or active military" },
@@ -102,8 +102,13 @@ export const eligibility = {
 export const timeline = {
   stepLabel: "Your timeline",
   headline: "One quick question about timing.",
-  context:
-    "Assumable transactions can take longer than a standard purchase — the servicer, the seller, and extra paperwork all need to line up. Knowing where you are on the timeline helps figure out whether assumables are worth chasing right now or if there's a better first step.",
+  video: {
+    eyebrow: "~45-sec explainer",
+    title: "Assumable deals move on a different clock.",
+    duration: "Watch before you answer -- the timing context matters.",
+    src: "/videos/timeline-explainer.mp4",
+    poster: "/videos/timeline-explainer.jpg",
+  },
   question: "How soon are you hoping to buy?",
   choices: [
     { value: "0-3" as const, label: "Now to 3 months" },
@@ -116,9 +121,14 @@ export const timeline = {
 
 export const openness = {
   stepLabel: "One more thing",
-  headline: "Assumables are one strategy. Not always the only one.",
-  context:
-    "Sometimes assumables are the smartest move. Sometimes the gap, the timing, the loan type, or the available inventory makes a different path smarter. There are other tools: rate buydowns, down payment assistance, different price ranges, seller concessions. None of them are consolation prizes — they're just different bets.",
+  headline: "There's almost never just one road to a home.",
+  video: {
+    eyebrow: "~60-sec explainer",
+    title: "The last question before your result.",
+    duration: "This one's worth watching before you answer.",
+    src: "/videos/openness-explainer.mp4",
+    poster: "/videos/openness-explainer.jpg",
+  },
   question: "If assumables don't turn out to be the best fit, are you open to exploring other options?",
   choices: [
     { value: "yes" as const, label: "Yes, I want to know my best path" },
@@ -132,9 +142,13 @@ export const openness = {
 export const paymentStructure = {
   stepLabel: "How the payment works",
   headline: "The payment depends on how you solve the gap. Here are the three ways buyers do it.",
-  // Dollar figures in tiles are built dynamically in PaymentStructureStep from computeExample().
-  introTemplate: (orig: string, curr: string, gap: string) =>
-    `Your seller originally borrowed ${orig} at 3.25%. After about four years of payments, roughly ${curr} remains — that's what you'd assume. The monthly payment was locked in at origination and you continue it. The ${gap} gap still has to come from somewhere. How you solve it changes what closing looks like.`,
+  video: {
+    eyebrow: "~60-sec explainer",
+    title: "Three real ways to handle the gap.",
+    duration: "Watch the breakdown, then compare the numbers below.",
+    src: "/videos/payment-structure-explainer.mp4",
+    poster: "/videos/payment-structure-explainer.jpg",
+  },
   scenarios: [
     {
       id: "cash" as const,
@@ -170,25 +184,17 @@ export const equityGap = {
   stepLabel: "The equity gap",
   headline: "Here's the part that doesn't make it onto the listing flyer.",
   video: {
-    eyebrow: "42-sec video guide",
-    title: "First, see why the low rate is only half the story.",
-    duration: "Watch the quick explanation, then answer with your own numbers in mind.",
+    eyebrow: "~63-sec explainer",
+    title: "The gap nobody puts in the headline.",
+    duration: "Watch first, then answer with your own numbers in mind.",
     src: "/videos/equity-gap-explainer.mp4",
     poster: "/videos/equity-gap-explainer.jpg",
   },
-  summary:
-    "The assumable loan can carry the old rate. The gap is the part you still have to solve before the deal works.",
-  lesson:
-    "The seller's assumable loan balance and the home's purchase price are *almost never the same number*. The difference between them is called the **equity gap**. It doesn't go away just because the rate is attractive. That gap has to be solved — with cash, a second loan, negotiation, or some combination. The rate is the exciting part. *The equity gap is where the deal either works or doesn't.*",
   // Visual dollar figures are computed dynamically from the user's purchase price in EquityGapStep.
   visual: {
     label: "Based on your purchase price (numbers are for illustration only):",
     existingLoanSub: "at 3.25% — this is what you'd assume",
-    gapSub: "This is what still has to be solved",
-  },
-  insight: {
-    label: "What this means for you.",
-    body: "A buyer who assumes the loan at *3.25%* still has to come up with the gap amount somehow. Cash, a second loan, or a negotiated seller contribution. That's not a dealbreaker — but it's *the question every assumable deal comes down to*.",
+    gapSub: "This is what still has to be covered",
   },
   question: "If the right home came along, how much could you realistically put toward a gap like this?",
   choices: [
@@ -211,24 +217,41 @@ export const results = {
     note: "This is a 5-minute call. We look at real inventory together, not generic rate tables.",
   },
   B: {
-    badge: "The numbers need a closer look",
-    headline: "There's real potential here, but one piece needs a closer look.",
+    badge: "One piece to work out",
+    headline: "There's real potential here, and one piece to work through.",
     body: "You're interested and not far off. The question mark is usually the equity gap: whether the cash is there, whether a second loan makes the combined payment work, or whether eligibility needs to be confirmed. A quick numbers review lets us run the actual math before you go hunting for homes.",
     cta: "Review My Numbers With Martin",
     ctaKey: "numbersReview" as const,
     note: "We'll run real scenarios: what the full monthly looks like with and without a second loan, and whether assumables beat a conventional deal for your situation.",
   },
   C: {
-    badge: "Another strategy may be smarter first",
-    headline: "Assumables may not be the strongest first move here.",
-    body: "That's not a bad outcome. Assumables are one tool, not the only one. Given your timeline, cash position, or eligibility picture, there may be a faster or more effective path to homeownership. Rate buydowns, down payment assistance, seller concessions, or a different loan type can all put you in a better position than chasing an assumable that doesn't fully work.",
+    badge: "A different road, same destination",
+    headline: "A different path may get you there faster.",
+    body: "Assumables are one tool, not the only one. Given your timeline, cash position, or eligibility picture, there may be a faster or more effective road to homeownership. Rate buydowns, down payment assistance, seller concessions, or a different loan type can all put you in a stronger position. The destination is the same — the route just looks different.",
     cta: "Explore My Buying Options",
     ctaKey: "strategyCall" as const,
     note: "This is a strategy call, not a sales call. We look at what actually works for your situation right now.",
   },
 } as const;
 
+export const price = {
+  video: {
+    eyebrow: "~25-sec intro",
+    title: "Let's make the numbers yours.",
+    duration: "Quick watch before you pick your range.",
+    src: "/videos/price-explainer.mp4",
+    poster: "/videos/price-explainer.jpg",
+  },
+};
+
 export const resultScreen = {
+  video: {
+    eyebrow: "~30-sec wrap-up",
+    title: "Here's where you land.",
+    duration: "Watch before you scroll to your result.",
+    src: "/videos/result-explainer.mp4",
+    poster: "/videos/result-explainer.jpg",
+  },
   agentQuestion: "Anything I should know before we talk?",
   agentChoices: [
     { value: "working-with-agent", label: "I'm already working with an agent" },
@@ -246,13 +269,15 @@ export const disclaimerLong =
   "This tool is for educational purposes only and is not a loan approval, commitment to lend, or guarantee that an assumable loan will be available or suitable. Final options depend on buyer qualification, property details, seller loan terms, available cash, financing structure, and program requirements.";
 
 export const welcome = {
-  eyebrow: "The Assumable Reality Check",
+  eyebrow: "The Assumable Opportunity Guide",
+  video: {
+    eyebrow: "~40-sec intro",
+    title: "Welcome to the Assumable Opportunity Guide.",
+    duration: "Start here before you dive in.",
+    src: "/videos/welcome-explainer.mp4",
+    poster: "/videos/welcome-explainer.jpg",
+  },
   headline:
-    "Some homes still have a *2%, 3%, or 4% mortgage* attached to them. Let's find out if that actually helps you.",
-  body: [
-    "An assumable loan sounds like a cheat code: you take over the seller's old, cheap mortgage instead of getting stuck with today's rate. Sometimes it really is that good. Sometimes the low rate is the shiny object, and the real story is the pile of cash it takes to make the deal work.",
-    "Give me about five minutes and you'll know which one you're looking at. No credit pull, no application, and no six different lenders blowing up your phone by dinner.",
-  ],
-  reassure: "In about five minutes you'll know if that low rate is *real money in your pocket* or just a shiny object.",
-  cta: "Start the Reality Check",
+    "Some homes still have a *2%, 3%, or 4% mortgage* attached to them. That's the opportunity most buyers don't know to ask about.",
+  cta: "Show Me the Opportunity",
 };
