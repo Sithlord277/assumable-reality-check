@@ -7,7 +7,7 @@ import { eligibility as c } from "@/lib/content";
 import type { EligibilityAnswer } from "@/lib/types";
 import ChoiceGrid from "@/components/ui/ChoiceGrid";
 import CtaButton from "@/components/ui/CtaButton";
-import RichText from "@/components/ui/RichText";
+import VideoExplainer from "@/components/ui/VideoExplainer";
 
 function HouseIcon({ className }: { className?: string }) {
   return (
@@ -63,13 +63,13 @@ function LoanTile({
       whileTap={{ scale: 0.98 }}
       onClick={onOpen}
       aria-label={`Open ${card.front.label} details`}
-      className="advisor-surface flex min-h-[132px] flex-col items-center justify-center gap-3 rounded-tile px-2 py-4 text-center transition-colors hover:border-gold/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+      className="advisor-surface flex min-h-[132px] flex-col items-center justify-center gap-3 rounded-tile px-2 py-4 text-center transition-all hover:border-gold/50 hover:shadow-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/30"
     >
-      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber/12 text-amber ring-1 ring-amber/25">
+      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/10 text-gold ring-1 ring-gold/20">
         <Icon className="h-6 w-6" />
       </span>
       <div>
-        <p className="text-[0.78rem] font-extrabold leading-tight text-navy">{card.front.label}</p>
+        <p className="text-[0.78rem] font-extrabold leading-tight text-charcoal">{card.front.label}</p>
         <p className="mt-1 text-[0.63rem] font-semibold uppercase tracking-wider text-ink/55">
           {card.front.hook}
         </p>
@@ -111,7 +111,7 @@ function LoanModal({
             <div className="mb-5 flex items-start justify-between gap-4">
               <div className="flex items-center gap-3">
                 {Icon && (
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber/20 text-amber ring-1 ring-amber/30">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold/15 text-gold ring-1 ring-gold/25">
                     <Icon className="h-5 w-5" />
                   </span>
                 )}
@@ -134,7 +134,7 @@ function LoanModal({
             <div className="flex flex-col gap-3">
               {card.back.points.map((pt) => (
                 <div key={pt} className="flex items-start gap-3">
-                  <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full bg-amber" />
+                  <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full bg-gold-soft" />
                   <p className="text-sm leading-relaxed text-cream/90">{pt}</p>
                 </div>
               ))}
@@ -164,12 +164,18 @@ export default function EligibilityStep() {
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gold">
           {c.stepLabel}
         </p>
-        <h2 className="font-display text-2xl font-extrabold leading-tight text-navy">
+        <h2 className="font-display text-2xl font-extrabold leading-tight text-charcoal">
           {c.headline}
         </h2>
       </div>
 
-      <p className="text-base leading-relaxed text-charcoal">{c.intro}</p>
+      <VideoExplainer
+        eyebrow={c.video.eyebrow}
+        title={c.video.title}
+        duration={c.video.duration}
+        src={c.video.src}
+        poster={c.video.poster}
+      />
 
       <div className="grid grid-cols-3 gap-2.5">
         {c.flipCards.map((card, i) => (
@@ -182,24 +188,8 @@ export default function EligibilityStep() {
         ))}
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div className="advisor-surface rounded-tile px-5 py-4">
-          <div className="premium-rule mb-4 w-20" />
-          <p className="mb-1 text-[0.72rem] font-bold uppercase tracking-widest text-amber">
-            {c.funFact.label}
-          </p>
-          <p className="text-sm leading-relaxed text-charcoal">
-            <RichText inline>{c.funFact.body}</RichText>
-          </p>
-        </div>
-      </motion.div>
-
       <div>
-        <p className="mb-3 text-base font-semibold text-navy">{c.question}</p>
+        <p className="mb-3 text-base font-semibold text-charcoal">{c.question}</p>
         <ChoiceGrid<EligibilityAnswer>
           choices={c.choices}
           selected={selected}

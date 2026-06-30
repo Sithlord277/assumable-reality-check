@@ -38,24 +38,12 @@ function AdvisorBackdrop() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
       <div
-        className="absolute inset-x-0 top-0 h-40"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(30,58,95,0.12) 0%, rgba(198,162,74,0.08) 48%, transparent 100%)",
-        }}
+        className="absolute -right-40 -top-24 h-[480px] w-[480px] rounded-full bg-violet opacity-[0.07]"
+        style={{ filter: "blur(90px)" }}
       />
       <div
-        className="absolute left-0 top-0 h-full w-[8px] bg-navy/85 shadow-soft sm:left-[calc(50%-16rem)]"
-      />
-      <div
-        className="absolute left-[8px] top-0 h-full w-[2px] bg-gold/75 sm:left-[calc(50%-16rem+8px)]"
-      />
-      <div
-        className="absolute inset-x-0 bottom-0 h-36"
-        style={{
-          background:
-            "linear-gradient(0deg, rgba(30,58,95,0.08) 0%, transparent 100%)",
-        }}
+        className="absolute -bottom-24 -left-40 h-[360px] w-[360px] rounded-full bg-cyan opacity-[0.07]"
+        style={{ filter: "blur(80px)" }}
       />
     </div>
   );
@@ -105,7 +93,7 @@ function Shell() {
             <div className="relative flex items-center justify-center">
               <button
                 onClick={back}
-                className="absolute left-0 flex items-center gap-1 rounded-lg px-1 py-1 text-xs font-semibold text-ink/50 transition-colors hover:text-navy focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40"
+                className="absolute left-0 flex items-center gap-1 rounded-lg px-1 py-1 text-xs font-semibold text-ink/50 transition-colors hover:text-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/30"
               >
                 <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
                   <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -121,10 +109,10 @@ function Shell() {
         <AnimatePresence mode="wait">
           <motion.div
             key={`${step}-${index}`}
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-1 flex-col"
           >
             <StepRenderer />

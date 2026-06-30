@@ -32,16 +32,16 @@ export default function ChoiceGrid<T extends string>({
               "group relative flex w-full items-center gap-3 rounded-xl border px-5 py-4 text-left text-base font-medium transition-all duration-200",
               "focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/40",
               isSelected
-                ? "border-navy bg-navy text-cream"
-                : "border-line bg-white-soft/85 text-charcoal hover:border-gold/60 hover:bg-white-soft",
+                ? "border-gold bg-gold text-cream"
+                : "border-line bg-white-soft text-charcoal hover:border-gold/50 hover:shadow-soft",
             ].join(" ")}
           >
             <span
               className={[
                 "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors",
                 isSelected
-                  ? "border-gold bg-gold text-navy"
-                  : "border-line bg-cream-deep/60 text-transparent group-hover:border-gold/50",
+                  ? "border-cream/50 bg-white/25 text-cream"
+                  : "border-line bg-cream-deep text-transparent group-hover:border-gold/50",
               ].join(" ")}
             >
               <AnimatePresence>

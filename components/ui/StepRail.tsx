@@ -35,8 +35,8 @@ export default function StepRail({ className = "" }: { className?: string }) {
                 className="absolute inset-y-0 left-0 rounded-full"
                 style={{
                   background: done
-                    ? "linear-gradient(90deg, var(--color-gold-soft), var(--color-gold))"
-                    : "linear-gradient(90deg, var(--color-gold), var(--color-gold-deep))",
+                    ? "linear-gradient(90deg, var(--color-gold), var(--color-cyan))"
+                    : "linear-gradient(90deg, var(--color-gold-soft), var(--color-gold))",
                 }}
                 initial={false}
                 animate={{ width: done || isCurrent ? "100%" : "0%" }}

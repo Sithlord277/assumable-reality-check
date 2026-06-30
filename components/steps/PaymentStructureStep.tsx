@@ -8,6 +8,7 @@ import { computeExample } from "@/lib/finance";
 import type { PaymentPrefAnswer } from "@/lib/types";
 import ChoiceGrid from "@/components/ui/ChoiceGrid";
 import CtaButton from "@/components/ui/CtaButton";
+import VideoExplainer from "@/components/ui/VideoExplainer";
 
 type ScenarioId = "cash" | "financing" | "traditional";
 
@@ -27,7 +28,6 @@ export default function PaymentStructureStep() {
   }
 
   const c = paymentStructure;
-  const intro = c.introTemplate(ex.originalLoan, ex.currentBalance, ex.gap);
 
   const scenarioTiles: Record<ScenarioId, Tile[]> = {
     cash: [
@@ -57,12 +57,18 @@ export default function PaymentStructureStep() {
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gold">
           {c.stepLabel}
         </p>
-        <h2 className="font-display text-2xl font-extrabold leading-tight text-navy">
+        <h2 className="font-display text-2xl font-extrabold leading-tight text-charcoal">
           {c.headline}
         </h2>
       </div>
 
-      <p className="text-base leading-relaxed text-charcoal">{intro}</p>
+      <VideoExplainer
+        eyebrow={c.video.eyebrow}
+        title={c.video.title}
+        duration={c.video.duration}
+        src={c.video.src}
+        poster={c.video.poster}
+      />
 
       {/* Scenario tab switcher */}
       <div>
@@ -76,8 +82,8 @@ export default function PaymentStructureStep() {
                 "flex-1 rounded-xl px-2 py-2 text-xs font-semibold transition-all",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40",
                 activeScenario === s.id
-                  ? "bg-navy text-cream shadow-soft"
-                  : "text-ink/60 hover:text-navy",
+                  ? "bg-gold text-cream shadow-soft"
+                  : "text-ink/60 hover:text-charcoal",
               ].join(" ")}
             >
               {s.tab}
@@ -95,7 +101,7 @@ export default function PaymentStructureStep() {
             transition={{ duration: 0.2 }}
             className="advisor-surface rounded-tile p-4"
           >
-            <p className="mb-4 text-sm font-semibold text-navy">{scenario.title}</p>
+            <p className="mb-4 text-sm font-semibold text-charcoal">{scenario.title}</p>
 
             <div className="flex flex-col gap-3">
               {tiles.map((tile, i) => (
@@ -103,7 +109,7 @@ export default function PaymentStructureStep() {
                   <p className="text-xs font-semibold uppercase tracking-wider text-ink/50">
                     {tile.label}
                   </p>
-                  <p className="mt-1 text-2xl font-extrabold tabular text-navy">
+                  <p className="mt-1 text-2xl font-extrabold tabular text-charcoal">
                     {tile.value}
                   </p>
                   {tile.sub && (
@@ -125,7 +131,7 @@ export default function PaymentStructureStep() {
 
       {/* Routing question */}
       <div>
-        <p className="mb-3 text-base font-semibold text-navy">{c.question}</p>
+        <p className="mb-3 text-base font-semibold text-charcoal">{c.question}</p>
         <ChoiceGrid<PaymentPrefAnswer>
           choices={c.choices}
           selected={selected}

@@ -7,8 +7,6 @@ import { computeExample } from "@/lib/finance";
 import type { GapCashBracket } from "@/lib/types";
 import ChoiceGrid from "@/components/ui/ChoiceGrid";
 import CtaButton from "@/components/ui/CtaButton";
-import InsightCard from "@/components/ui/InsightCard";
-import RichText from "@/components/ui/RichText";
 import VideoExplainer from "@/components/ui/VideoExplainer";
 
 export default function EquityGapStep() {
@@ -30,30 +28,24 @@ export default function EquityGapStep() {
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gold">
           {c.stepLabel}
         </p>
-        <h2 className="font-display text-2xl font-extrabold leading-tight text-navy">
+        <h2 className="font-display text-2xl font-extrabold leading-tight text-charcoal">
           {c.headline}
         </h2>
       </div>
 
+      {/* Video — compact horizontal layout since this step has the most content */}
       <VideoExplainer
         eyebrow={c.video.eyebrow}
         title={c.video.title}
         duration={c.video.duration}
         src={c.video.src}
         poster={c.video.poster}
+        compact
       />
 
-      <div className="rounded-tile border border-line bg-white-soft/75 px-5 py-4">
-        <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-gold-deep">
-          Quick read
-        </p>
-        <p className="mt-2 text-base font-semibold leading-relaxed text-navy">
-          {c.summary}
-        </p>
-      </div>
-
+      {/* Example numbers */}
       <div className="advisor-surface rounded-tile px-5 py-4">
-        <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-gold-deep">
+        <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-gold">
           Your example numbers
         </p>
         <div className="mt-4 grid grid-cols-1 gap-3">
@@ -61,7 +53,7 @@ export default function EquityGapStep() {
             <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-ink/48">
               Purchase price
             </p>
-            <p className="mt-1 text-2xl font-extrabold tabular text-navy">{ex.price}</p>
+            <p className="mt-1 text-2xl font-extrabold tabular text-charcoal">{ex.price}</p>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="rounded-lg bg-navy px-4 py-3 text-cream">
@@ -70,22 +62,18 @@ export default function EquityGapStep() {
               </p>
               <p className="mt-1 text-xl font-extrabold tabular">{ex.currentBalance}</p>
             </div>
-            <div className="rounded-lg border-2 border-gold bg-gold/12 px-4 py-3">
-              <p className="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-gold-deep">
+            <div className="rounded-lg border-2 border-sunset bg-sunset/10 px-4 py-3">
+              <p className="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-sunset">
                 Gap
               </p>
-              <p className="mt-1 text-xl font-extrabold tabular text-navy">{ex.gap}</p>
+              <p className="mt-1 text-xl font-extrabold tabular text-sunset">{ex.gap}</p>
             </div>
           </div>
         </div>
       </div>
 
-      <InsightCard label={c.insight.label}>
-        <RichText inline>{c.insight.body}</RichText>
-      </InsightCard>
-
       <div>
-        <p className="mb-3 text-base font-semibold text-navy">{c.question}</p>
+        <p className="mb-3 text-base font-semibold text-charcoal">{c.question}</p>
         <ChoiceGrid<GapCashBracket>
           choices={c.choices}
           selected={selected}

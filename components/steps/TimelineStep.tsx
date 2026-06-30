@@ -6,6 +6,7 @@ import { timeline as c } from "@/lib/content";
 import type { TimelineAnswer } from "@/lib/types";
 import ChoiceGrid from "@/components/ui/ChoiceGrid";
 import CtaButton from "@/components/ui/CtaButton";
+import VideoExplainer from "@/components/ui/VideoExplainer";
 
 export default function TimelineStep() {
   const { next, setAnswer, answers } = useFlow();
@@ -24,15 +25,21 @@ export default function TimelineStep() {
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gold">
           {c.stepLabel}
         </p>
-        <h2 className="text-2xl font-extrabold leading-tight text-navy">
+        <h2 className="font-display text-2xl font-extrabold leading-tight text-charcoal">
           {c.headline}
         </h2>
       </div>
 
-      <p className="text-base leading-relaxed text-ink">{c.context}</p>
+      <VideoExplainer
+        eyebrow={c.video.eyebrow}
+        title={c.video.title}
+        duration={c.video.duration}
+        src={c.video.src}
+        poster={c.video.poster}
+      />
 
       <div>
-        <p className="mb-3 text-base font-semibold text-navy">{c.question}</p>
+        <p className="mb-3 text-base font-semibold text-charcoal">{c.question}</p>
         <ChoiceGrid<TimelineAnswer>
           choices={c.choices}
           selected={selected}

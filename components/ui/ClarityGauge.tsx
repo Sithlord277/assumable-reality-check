@@ -69,11 +69,11 @@ export default function ClarityGauge({
           strokeLinecap="round"
           strokeDasharray={circ}
           strokeDashoffset={offset}
-          style={{ filter: "drop-shadow(0 4px 10px rgba(168,132,47,0.35))" }}
+          style={{ filter: "drop-shadow(0 4px 12px rgba(124,92,255,0.40))" }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-display text-5xl font-black tabular leading-none text-navy">
+        <span className="font-display text-5xl font-black tabular leading-none text-charcoal">
           {n}
           <span className="text-2xl text-gold">%</span>
         </span>

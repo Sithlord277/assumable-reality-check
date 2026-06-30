@@ -14,25 +14,25 @@ export default function FinancialTile({
   const styles = {
     default: "bg-white-soft border border-line",
     navy: "bg-navy border border-navy",
-    gap: "bg-gold/12 border-2 border-gold",
+    gap: "bg-sunset/10 border-2 border-sunset",
   };
 
   const labelColor = {
     default: "text-ink/50",
     navy: "text-cream/60",
-    gap: "text-gold-deep",
+    gap: "text-sunset",
   };
 
   const valueColor = {
-    default: "text-navy",
+    default: "text-charcoal",
     navy: "text-cream",
-    gap: "text-navy",
+    gap: "text-sunset",
   };
 
   const subColor = {
     default: "text-ink/50",
     navy: "text-cream/55",
-    gap: "text-ink/60",
+    gap: "text-ink/55",
   };
 
   return (

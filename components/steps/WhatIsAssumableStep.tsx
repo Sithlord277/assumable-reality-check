@@ -6,9 +6,8 @@ import { whatIsAssumable } from "@/lib/content";
 import { computeExample } from "@/lib/finance";
 import type { AttentionAnswer } from "@/lib/types";
 import ChoiceGrid from "@/components/ui/ChoiceGrid";
-import InsightCard from "@/components/ui/InsightCard";
 import CtaButton from "@/components/ui/CtaButton";
-import RichText from "@/components/ui/RichText";
+import VideoExplainer from "@/components/ui/VideoExplainer";
 
 export default function WhatIsAssumableStep() {
   const { next, setAnswer, answers } = useFlow();
@@ -30,12 +29,18 @@ export default function WhatIsAssumableStep() {
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gold">
           {c.stepLabel}
         </p>
-        <h2 className="font-display text-2xl font-extrabold leading-tight text-navy">
+        <h2 className="font-display text-2xl font-extrabold leading-tight text-charcoal">
           {c.headline}
         </h2>
       </div>
 
-      <RichText className="text-base leading-relaxed text-charcoal">{c.lesson}</RichText>
+      <VideoExplainer
+        eyebrow={c.video.eyebrow}
+        title={c.video.title}
+        duration={c.video.duration}
+        src={c.video.src}
+        poster={c.video.poster}
+      />
 
       <div>
         <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink/50">
@@ -43,13 +48,13 @@ export default function WhatIsAssumableStep() {
         </p>
         <div className="advisor-surface rounded-tile p-4">
           <div className="mb-4 flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-navy/8 text-navy" aria-hidden>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold/10 text-gold" aria-hidden>
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" />
                 <path d="M9 21v-7h6v7" />
               </svg>
             </span>
-            <span className="text-sm font-semibold text-navy">
+            <span className="text-sm font-semibold text-charcoal">
               {c.visual.homePrice} - {ex.price}
             </span>
           </div>
@@ -63,15 +68,15 @@ export default function WhatIsAssumableStep() {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-amber/25 bg-amber/10 px-3 py-3 text-center">
-              <p className="text-xs font-semibold uppercase tracking-wider text-amber">
+            <div className="rounded-xl border border-mint/30 bg-mint/10 px-3 py-3 text-center">
+              <p className="text-xs font-semibold uppercase tracking-wider text-mint-deep">
                 {c.visual.existingRate}
               </p>
-              <p className="mt-1 text-2xl font-extrabold tabular text-navy">3.25%</p>
+              <p className="mt-1 text-2xl font-extrabold tabular text-charcoal">3.25%</p>
               <p className="text-xs text-ink/50">{c.visual.rateNote}</p>
             </div>
-            <div className="rounded-xl border border-line bg-cream-deep px-3 py-3 text-center">
-              <p className="text-xs font-semibold uppercase tracking-wider text-ink/60">
+            <div className="rounded-xl border border-sunset/25 bg-sunset/8 px-3 py-3 text-center">
+              <p className="text-xs font-semibold uppercase tracking-wider text-sunset">
                 {c.visual.todayRate}
               </p>
               <p className="mt-1 text-2xl font-extrabold tabular text-charcoal">7.00%</p>
@@ -81,10 +86,8 @@ export default function WhatIsAssumableStep() {
         </div>
       </div>
 
-      <InsightCard label={c.insight.label}>{c.insight.body}</InsightCard>
-
       <div>
-        <p className="mb-3 text-base font-semibold text-navy">{c.question}</p>
+        <p className="mb-3 text-base font-semibold text-charcoal">{c.question}</p>
         <ChoiceGrid<AttentionAnswer>
           choices={c.choices}
           selected={selected}

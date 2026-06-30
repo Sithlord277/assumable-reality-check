@@ -7,9 +7,9 @@ import "@fontsource-variable/plus-jakarta-sans";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "The Assumable Reality Check",
+  title: "The Assumable Opportunity Guide",
   description:
-    "A five-minute reality check on assumable mortgages. Learn how they actually work, then find your smartest next step.",
+    "A five-minute guide to assumable mortgages. Learn how they actually work, find your smartest next step, and see if the opportunity is real for you.",
 };
 
 export default function RootLayout({

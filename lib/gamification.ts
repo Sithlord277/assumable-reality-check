@@ -78,6 +78,6 @@ export interface FitReading {
 
 export const FIT: Record<ResultKey, FitReading> = {
   A: { fit: "Strong Fit", tone: "strong", needle: 88 },
-  B: { fit: "Worth a Closer Look", tone: "moderate", needle: 58 },
-  C: { fit: "A Different Path Fits Better", tone: "alt", needle: 30 },
+  B: { fit: "One Piece to Work Out", tone: "moderate", needle: 58 },
+  C: { fit: "A Different Road", tone: "alt", needle: 30 },
 };
