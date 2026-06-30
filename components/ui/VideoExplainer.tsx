@@ -109,23 +109,27 @@ export default function VideoExplainer({
           </div>
         </div>
 
-        {/* Full-screen overlay — rendered when playing */}
+        {/* Full-screen overlay — tap backdrop to dismiss */}
         {playing && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90"
             onClick={handlePause}
           >
             <video
               ref={videoRef}
-              className="max-h-[90vh] w-full max-w-lg"
+              className="max-h-[85vh] w-full max-w-lg"
               playsInline
               autoPlay
               controls
               src={src}
               poster={poster}
+              onClick={(e) => e.stopPropagation()}
               onPause={handlePause}
               onEnded={handleEnded}
             />
+            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-white/40">
+              Tap outside to close
+            </p>
           </div>
         )}
       </>
