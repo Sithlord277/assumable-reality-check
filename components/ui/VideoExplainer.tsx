@@ -32,12 +32,20 @@ export default function VideoExplainer({
   const [playing, setPlaying] = useState(false);
 
   function handlePlay() {
-    videoRef.current?.play();
+    videoRef.current?.play()?.catch(console.error);
     setPlaying(true);
   }
 
   function handlePause() { setPlaying(false); }
   function handleEnded() { setPlaying(false); }
+
+  // Ref callback for the compact overlay: play() fires within React's commit
+  // phase, which is still inside the user-gesture window from the click.
+  function attachAndPlay(el: HTMLVideoElement | null) {
+    if (!el) return;
+    (videoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
+    el.play()?.catch(console.error);
+  }
 
   // ── Placeholder (no video yet) ──────────────────────────────────────────
   if (!src) {
@@ -83,72 +91,65 @@ export default function VideoExplainer({
     );
   }
 
-  // ── Compact layout (Equity Gap) — tap opens a full-screen overlay ──────
+  // ── Compact layout (Equity Gap) — plays inline, expands on tap ─────────
   if (compact) {
-    return (
-      <>
-        <button
-          type="button"
-          onClick={handlePlay}
-          aria-label="Play video"
-          className="glass-dark group flex w-full items-center gap-4 rounded-tile px-4 py-3 shadow-tile focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40"
-        >
-          {/* Thumbnail strip */}
-          <div className="relative h-[52px] w-[92px] shrink-0 overflow-hidden rounded-xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={poster}
-              alt=""
-              aria-hidden
-              className="h-full w-full object-cover"
-            />
-            <div
-              className="absolute inset-0 flex items-center justify-center"
-              style={{ background: "rgba(33,27,58,0.45)" }}
-            >
-              <span
-                className="flex h-8 w-8 items-center justify-center rounded-full transition-transform group-hover:scale-110"
-                style={{
-                  background: "linear-gradient(135deg, var(--color-gold) 0%, var(--color-cyan) 100%)",
-                }}
-              >
-                <PlayIcon className="h-4 w-4 translate-x-0.5 text-white" />
-              </span>
-            </div>
-          </div>
-          <div className="min-w-0 text-left">
-            <p className="text-[0.6rem] font-bold uppercase tracking-[0.18em] text-gold-soft">
-              {eyebrow}
-            </p>
-            <p className="mt-0.5 text-sm font-bold leading-snug text-cream">{title}</p>
-            <p className="mt-0.5 text-[0.65rem] text-cream/45">{duration}</p>
-          </div>
-        </button>
-
-        {/* Full-screen overlay — tap backdrop to dismiss */}
-        {playing && (
-          <div
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90"
-            onClick={handlePause}
-          >
+    if (playing) {
+      return (
+        <div className="glass-dark overflow-hidden rounded-tile shadow-tile">
+          <div className="relative aspect-video overflow-hidden rounded-xl bg-navy-deep">
             <video
-              ref={videoRef}
-              className="max-h-[85vh] w-full max-w-lg"
+              ref={attachAndPlay}
+              className="h-full w-full object-cover"
               playsInline
-              autoPlay
               controls
               src={src}
               poster={poster}
-              onClick={(e) => e.stopPropagation()}
               onPause={handlePause}
               onEnded={handleEnded}
             />
-            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-white/40">
-              Tap outside to close
-            </p>
           </div>
-        )}
-      </>
+        </div>
+      );
+    }
+
+    return (
+      <button
+        type="button"
+        onClick={handlePlay}
+        aria-label="Play video"
+        className="glass-dark group flex w-full items-center gap-4 rounded-tile px-4 py-3 shadow-tile focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40"
+      >
+        {/* Thumbnail strip */}
+        <div className="relative h-[52px] w-[92px] shrink-0 overflow-hidden rounded-xl">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={poster}
+            alt=""
+            aria-hidden
+            className="h-full w-full object-cover"
+          />
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ background: "rgba(33,27,58,0.45)" }}
+          >
+            <span
+              className="flex h-8 w-8 items-center justify-center rounded-full transition-transform group-hover:scale-110"
+              style={{
+                background: "linear-gradient(135deg, var(--color-gold) 0%, var(--color-cyan) 100%)",
+              }}
+            >
+              <PlayIcon className="h-4 w-4 translate-x-0.5 text-white" />
+            </span>
+          </div>
+        </div>
+        <div className="min-w-0 text-left">
+          <p className="text-[0.6rem] font-bold uppercase tracking-[0.18em] text-gold-soft">
+            {eyebrow}
+          </p>
+          <p className="mt-0.5 text-sm font-bold leading-snug text-cream">{title}</p>
+          <p className="mt-0.5 text-[0.65rem] text-cream/45">{duration}</p>
+        </div>
+      </button>
     );
   }
 
